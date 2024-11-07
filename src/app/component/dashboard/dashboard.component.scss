@@ -55,3 +55,26 @@ body {
   .card-text p{
     margin-bottom: 5px;
   }
+
+  @media (max-width: 768px) {
+    .card {
+      padding: 12px; /* Inner padding for content */
+
+      .card-image img {
+        width: 50px; /* Width of the image */
+        height: auto; /* Maintain aspect ratio */
+      }
+      
+      .card h2 {
+        font-size: 16px; /* Font size for card headings */
+        color: #333; /* Darker color for headings */
+        margin: 0; /* Remove default margin */
+      }
+      
+      .card p {
+        font-size: 12px; /* Font size for card text */
+        color: #718EBF; /* Lighter color for text */
+      }
+
+    }
+  }

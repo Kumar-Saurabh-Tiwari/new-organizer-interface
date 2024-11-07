@@ -1,0 +1,25 @@
+<div class="services-list-container">
+    <div *ngFor="let service of services" class="service-item">
+      <div class="service-icon" [ngStyle]="{'background-color': service.color}">
+        <i [class]="service.icon"></i>
+      </div>
+      <div class="service-details">
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.description }}</p>
+      </div>
+      <div *ngIf="!bIsMovileView" class="service-details">
+        <h3>{{ service.publisher }}</h3>
+        <p>{{ service.info }}</p>
+      </div>
+      <div *ngIf="!bIsMovileView" class="service-details">
+        <h3>{{ service.publisher }}</h3>
+        <p>{{ service.info }}</p>
+      </div>
+      <div *ngIf="!bIsMovileView" class="service-details">
+        <h3>{{ service.publisher }}</h3>
+        <p>{{ service.info }}</p>
+      </div>
+      <button class="view-details">View Details</button>
+    </div>
+  </div>
+  

@@ -1,68 +1,59 @@
 <div class="transaction-container">
     <div class="tabs">
-        <button class="tab active">All Transactions</button>
-        <button class="tab">Income</button>
-        <button class="tab">Expense</button>
+        <button class="tab" [class.active]="activeTab === 'All Transactions'"
+            (click)="setActiveTab('All Transactions')">
+            All Transactions
+        </button>
+        <button class="tab" [class.active]="activeTab === 'Income'" (click)="setActiveTab('Income')">
+            Income
+        </button>
+        <button class="tab" [class.active]="activeTab === 'Expense'" (click)="setActiveTab('Expense')">
+            Expense
+        </button>
     </div>
+
 
     <div class="table-view">
         <table class="transaction-table">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Transaction ID</th>
-                    <th>Type</th>
-                    <th>Card</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Receipt</th>
+                    <th *ngIf="!bIsMovileView">Description</th>
+                    <th *ngIf="!bIsMovileView">Transaction ID</th>
+                    <th *ngIf="!bIsMovileView">Type</th>
+                    <th *ngIf="!bIsMovileView">Card</th>
+                    <th *ngIf="!bIsMovileView">Date</th>
+                    <th *ngIf="!bIsMovileView">Amount</th>
+                    <th *ngIf="!bIsMovileView">Receipt</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Spotify Subscription</td>
-                    <td>#12548796</td>
-                    <td>Shopping</td>
-                    <td>1234 ****</td>
-                    <td>28 Jan, 12.30 AM</td>
-                    <td class="negative">- $2,500</td>
-                    <td><button class="download-btn">Download</button></td>
+            <tbody *ngIf="!bIsMovileView">
+                <tr *ngFor="let transaction of transactions">
+                    <td><img style="margin-right: 10px;" src="../../../assets/round-up-arrow.svg" alt="" width="28px">
+                        {{ transaction.name }}</td>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.card }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td [ngClass]="transaction.type">{{ transaction.amount | currency }}</td>
+                    <td><button class="download-btn">{{ transaction.downloadLabel }}</button></td>
                 </tr>
-                <tr>
-                    <td>Freepik Sales</td>
-                    <td>#12548796</td>
-                    <td>Transfer</td>
-                    <td>1234 ****</td>
-                    <td>25 Jan, 10.40 PM</td>
-                    <td class="positive">+ $750</td>
-                    <td><button class="download-btn">Download</button></td>
-                </tr>
-                <tr>
-                    <td>Mobile Service</td>
-                    <td>#12548796</td>
-                    <td>Service</td>
-                    <td>1234 ****</td>
-                    <td>20 Jan, 10.40 PM</td>
-                    <td class="negative">- $150</td>
-                    <td><button class="download-btn">Download</button></td>
-                </tr>
-                <tr>
-                    <td>Wilson</td>
-                    <td>#12548796</td>
-                    <td>Transfer</td>
-                    <td>1234 ****</td>
-                    <td>15 Jan, 03.29 PM</td>
-                    <td class="negative">- $1,050</td>
-                    <td><button class="download-btn">Download</button></td>
-                </tr>
-                <tr>
-                    <td>Emily</td>
-                    <td>#12548796</td>
-                    <td>Transfer</td>
-                    <td>1234 ****</td>
-                    <td>14 Jan, 10.40 PM</td>
-                    <td class="positive">+ $840</td>
-                    <td><button class="download-btn">Download</button></td>
+            </tbody>
+
+
+            <tbody *ngIf="bIsMovileView">
+                <tr *ngFor="let transaction of transactions">
+                    <td style="display: flex;">
+                        <img style="margin-right: 10px;" src="../../../assets/round-up-arrow.svg" width="32px" alt="">
+                        <div>
+                            {{ transaction.name }} <br> <small style="color: #718EBF;">{{ transaction.date }}</small>
+                        </div>
+                    </td>
+                    <td *ngIf="!bIsMovileView">{{ transaction.id }}</td>
+                    <td *ngIf="!bIsMovileView">{{ transaction.category }}</td>
+                    <td *ngIf="!bIsMovileView">{{ transaction.card }}</td>
+                    <td [ngClass]="transaction.type">{{ transaction.amount | currency }}</td>
+                    <td *ngIf="!bIsMovileView"><button class="download-btn">{{ transaction.downloadLabel }}</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -73,14 +64,14 @@
             <!-- Previous Button with Arrow -->
             <li class="page-item disabled">
                 <a class="page-link" href="#" tabindex="-1" style="color: #1814F3; font-weight: bold; font-size: 14px;">
-                    <span aria-hidden="true">&lt;</span> Previous
+                   <img style="margin-right: 5px;" src="../../../assets/left-arrow.svg" width="8px" alt=""> Previous
                 </a>
             </li>
 
             <!-- Page 1 (Active) -->
             <li class="page-item active">
                 <a class="page-link" href="#"
-                    style="background-color: #1814F3; color: white; font-weight: bold; font-size: 14px; border-radius: 50px;">
+                    style="background-color: #1814F3; color: white; font-weight: bold; font-size: 14px; border-radius: 10px;">
                     1
                 </a>
             </li>
@@ -98,7 +89,7 @@
             <!-- Next Button with Arrow -->
             <li class="page-item">
                 <a class="page-link" href="#" style="color: #1814F3; font-weight: bold; font-size: 14px;">
-                    Next <span aria-hidden="true">&gt;</span>
+                    Next <img style="margin-left: 5px;" src="../../../assets/right-arrow.svg" width="8px" alt="">
                 </a>
             </li>
         </ul>

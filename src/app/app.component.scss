@@ -1,58 +1,238 @@
 @media (max-width: 768px) {
-    .sidebar {
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header .search {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+
+.search {
+  height: 45px;
+  width: 230px;
+  background-color: #F5F7FA; // Light grey background
+  border-radius: 25px; // Rounded corners
+  display: flex;
+  align-items: center; // Vertically align input and icon
+  padding: 0px 7px;
+  padding-left: 20px; // Padding inside the search box
+  color: #718EBF;
+
+  i {
+    margin-right: 10px; // Space between the icon and input
+    font-size: 14px;
+    color: #718EBF; // Size of the search icon
+  }
+
+  input {
+    color: #718EBF !important;
+    /* Color for the input text */
+    border: none;
+    /* Remove default input border */
+    background: none;
+    /* Transparent background for input */
+    outline: none;
+    /* Remove input outline */
+    flex: 1;
+    /* Allow input to take full width */
+    font-size: 14px;
+    /* Font size for input text */
+    font-family: 'Inter', sans-serif;
+    /* Use 'Inter' font */
+  }
+
+  /* Placeholder styling */
+  input::placeholder {
+    color: #718EBF;
+    /* Color for the placeholder text */
+    opacity: 1;
+    /* Ensure full opacity for the placeholder */
+  }
+
+
+  // Optional: Add focus styles for input to enhance the UI
+  input:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Sidebar Base Styles */
+  .sidebar {
+    background-color: #FFFFFF;
+    padding: 0;
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -220px;
+    /* Hide off-screen initially */
+    transition: left 0.3s ease;
+    z-index: 1000;
+    /* Above other content */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar.open {
+    left: 0;
+    /* Slide in from left when open */
+  }
+
+  /* Mobile-Specific Styles */
+  @media (max-width: 768px) {
+
+    /* Overlay for Dark Background When Sidebar is Open */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: auto;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+      /* Below sidebar */
+      pointer-events: none;
+      /* Only clickable when open */
     }
-  
-    .header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .header .search {
-      width: 100%;
-      margin-top: 10px;
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+      /* Enable clicks when sidebar is open */
     }
   }
-  
 
-  .search {
-    height: 45px;
-    width: 230px;
-    background-color: #F5F7FA;  // Light grey background
-    border-radius: 25px;        // Rounded corners
+  /* Sidebar Content Styling */
+  .sidebar nav {
     display: flex;
-    align-items: center;        // Vertically align input and icon
-    padding: 0px 7px; 
-    padding-left: 20px;        // Padding inside the search box
-    color: #718EBF;
-    i {       
-      margin-right: 10px;       // Space between the icon and input
-      font-size: 14px;  
-      color: #718EBF;        // Size of the search icon
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebar a {
+    font-size: 18px;
+    color: #B1B1B1;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+
+    i {
+      margin-right: 15px;
+      font-size: 18px;
+      color: #B1B1B1;
+      transition: color 0.3s;
     }
-  
-    input {
-        color: #718EBF !important;               /* Color for the input text */
-        border: none;                            /* Remove default input border */
-        background: none;                        /* Transparent background for input */
-        outline: none;                           /* Remove input outline */
-        flex: 1;                                 /* Allow input to take full width */
-        font-size: 14px;                         /* Font size for input text */
-        font-family: 'Inter', sans-serif;        /* Use 'Inter' font */
+
+    &:hover {
+      background-color: rgba(45, 96, 255, 0.1);
+      color: #2D60FF;
+
+      i {
+        color: #2D60FF;
       }
-      
+    }
+  }
+
+  .sidebar a.active {
+    color: #2D60FF;
+    font-weight: 700;
+    padding-left: 20px;
+    border-left: 5px solid #2D60FF;
+
+    i {
+      color: #2D60FF;
+    }
+  }
+
+  .sidebar h4 {
+    font-weight: bold;
+    font-size: 20px;
+    width: 200px;
+    padding: 20px;
+    margin-left: 10px;
+  }
+
+
+  .mobile-header {
+    background-color: #FFFFFF;
+
+    .top-bar {
+      padding: 25px 20px 10px 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .search {
+      margin-bottom: 20px;
+      height: 45px;
+      width: 90%;
+      background-color: #F5F7FA; // Light grey background
+      border-radius: 25px; // Rounded corners
+      display: flex;
+      align-items: center; // Vertically align input and icon
+      padding: 0px 7px;
+      padding-left: 20px; // Padding inside the search box
+      color: #718EBF;
+
+      i {
+        margin-right: 10px; // Space between the icon and input
+        font-size: 14px;
+        color: #718EBF; // Size of the search icon
+      }
+
+      input {
+        color: #718EBF !important;
+        /* Color for the input text */
+        border: none;
+        /* Remove default input border */
+        background: none;
+        /* Transparent background for input */
+        outline: none;
+        /* Remove input outline */
+        flex: 1;
+        /* Allow input to take full width */
+        font-size: 14px;
+        /* Font size for input text */
+        font-family: 'Inter', sans-serif;
+        /* Use 'Inter' font */
+      }
+
       /* Placeholder styling */
       input::placeholder {
-        color: #718EBF;                          /* Color for the placeholder text */
-        opacity: 1;                              /* Ensure full opacity for the placeholder */
+        color: #718EBF;
+        /* Color for the placeholder text */
+        opacity: 1;
+        /* Ensure full opacity for the placeholder */
       }
-      
-  
-    // Optional: Add focus styles for input to enhance the UI
-    input:focus {
-      outline: none;
-      border: none;
+
+
+      // Optional: Add focus styles for input to enhance the UI
+      input:focus {
+        outline: none;
+        border: none;
+      }
     }
+
   }
-  
+
+  // .header .search {
+  //   width: 100%;
+  //   margin-top: 10px;
+  // }
+}
