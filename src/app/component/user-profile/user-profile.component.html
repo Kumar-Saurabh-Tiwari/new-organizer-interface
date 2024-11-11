@@ -3,25 +3,25 @@
     <div class="tabs">
         <span 
           class="tab" 
-          [class.active]="activeTab === 'Edit Profile'" 
-          (click)="setActiveTab('Edit Profile')"
+          [class.active]="activeTab === 'User Profile'" 
+          (click)="setActiveTab('User Profile')"
         >
-          All Transactions
+        User Profile
         </span>
         <span 
           class="tab" 
-          [class.active]="activeTab === 'Preferences'" 
-          (click)="setActiveTab('Preferences')"
+          [class.active]="activeTab === 'Business Profile'" 
+          (click)="setActiveTab('Business Profile')"
         >
-          Income
+        Business Profile
         </span>
-        <span 
+        <!-- <span 
           class="tab" 
           [class.active]="activeTab === 'Security'" 
           (click)="setActiveTab('Security')"
         >
           Expense
-        </span>
+        </span> -->
       </div>
       
 
@@ -29,34 +29,34 @@
     <div class="profile-container">
         <!-- Profile Picture Section -->
         <div class="profile-picture">
-            <img id="profile-image" [src]="profileData.imageUrl"  alt="Profile Picture" />
+            <img id="profile-image" [src]="allBusinessDetails.sLogo"  alt="Profile Picture" />
             <img id="edit-icon" src="../../../assets/edit-icon.svg" width="35px" alt="Edit Profile" (click)="onEditIconClick()" />
 
             <!-- Hidden file input for image upload -->
-            <input type="file" #fileInput accept="image/*" style="display: none;" (change)="onFileSelected($event)" />
+            <input type="file" #fileInput accept="image/*" style="display: none;" (change)="selectFiles($event)" />
         </div>
     
         <!-- Form Section -->
-        <form class="profile-form">
+        <form *ngIf="activeTab === 'User Profile'" class="profile-form">
             <div class="form-row">
                 <div class="form-group">
                     <label>Your Name</label>
-                    <input type="text" [(ngModel)]="profileData.name" placeholder="Enter Your Name" name="name" />
+                    <input type="text"  [(ngModel)]="allPersonalDetails.sName" placeholder="Enter Your Name" name="name" />
                 </div>
                 <div class="form-group">
-                    <label>User Name</label>
-                    <input type="text" [(ngModel)]="profileData.username" placeholder="Enter User Name" name="username" />
+                    <label>Email</label>
+                    <input type="email" [(ngModel)]="allPersonalDetails.sEmail" placeholder="Enter Email" name="email" />
                 </div>
             </div>
     
             <div class="form-row">
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" [(ngModel)]="profileData.email" placeholder="Enter Email" name="email" />
+                    <label>Phone Number</label>
+                    <input type="number" [(ngModel)]="allPersonalDetails.nPhone" placeholder="Enter Phone" name="email" />
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" [(ngModel)]="profileData.password" placeholder="**********" name="password" />
+                    <input type="password" [(ngModel)]="allPersonalDetails.sPassword" placeholder="**********" name="password" />
                 </div>
             </div>
     
@@ -90,6 +90,67 @@
                 <div class="form-group">
                     <label>Country</label>
                     <input type="text" [(ngModel)]="profileData.country" placeholder="Country" name="country" />
+                </div>
+            </div>
+    
+            <!-- Save Button -->
+            <div style="display: flex; justify-content: end;">
+                <button type="button" (click)="saveProfile()" class="save-button">Save</button>
+            </div>
+        </form>
+        <form *ngIf="activeTab === 'Business Profile'" class="profile-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text"  [(ngModel)]="allBusinessDetails.sName" placeholder="Enter Your Name" name="name" />
+                </div>
+                <div class="form-group">
+                    <label>Business Email</label>
+                    <input type="email"  [(ngModel)]="allBusinessDetails.sEmail" placeholder="Enter Email" name="email" />
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="number" [(ngModel)]="allPersonalDetails.nPhone" placeholder="Enter Phone" name="email" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" [(ngModel)]="allPersonalDetails.sPassword" placeholder="**********" name="password" />
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Company Website</label>
+                    <input type="text"[(ngModel)]="allBusinessDetails.sWebsite"  placeholder="Present Address" name="website" />
+                </div>
+                <div class="form-group">
+                    <label>Present Address</label>
+                    <input type="text" [(ngModel)]="allBusinessDetails.sAddress"  placeholder="Present Address" name="presentAddress" />
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Linkdin Url</label>
+                    <input type="text" [(ngModel)]="allBusinessDetails.sLinkedinUrl" placeholder="Linkedin Url" name="sLinkedinUrl" />
+                </div>
+                <div class="form-group">
+                    <label>Twitter Url</label>
+                    <input type="text"  [(ngModel)]="allBusinessDetails.sTwitterUrl" placeholder="Twitter Url" name="sTwitterUrl" />
+                </div>
+            </div>
+    
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Facebook URL</label>
+                    <input type="text" [(ngModel)]="allBusinessDetails.sFacebookUrl" placeholder="Facebook Url" name="sFacebookUrl" />
+                </div>
+                <div class="form-group">
+                    <label>Business Sub-Domain</label>
+                    <input type="text"  name="sSubDomain" [(ngModel)]="allDomainDetails.data" placeholder="Business Subdomain"/>
                 </div>
             </div>
     

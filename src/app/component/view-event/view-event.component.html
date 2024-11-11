@@ -1,0 +1,97 @@
+<div class="user-profile">
+
+    <!-- Profile and Form Container -->
+    <div class="profile-container">
+        <!-- Profile Picture Section -->
+        <div class="profile-picture">
+            <img id="profile-image" [src]="eventObject.sLogo" alt="Profile Picture" />
+            <img id="edit-icon" src="../../../assets/edit-icon.svg" width="35px" alt="Edit Profile"
+                (click)="onEditIconClick()" />
+
+            <!-- Hidden file input for image upload -->
+            <input type="file" #fileInput accept="image/*" style="display: none;" (change)="selectFiles($event)" />
+        </div>
+
+        <!-- Form Section -->
+        <form class="profile-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Event Name</label>
+                    <input type="text" [(ngModel)]="eventObject.sName" placeholder="Your Event Name" name="sName" />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" [(ngModel)]="eventObject.sDescription" name="sDescription"
+                        placeholder="Your Description" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Event Starts Date Time</label>
+                    <input type="datetime-local" id="dStartDate" [(ngModel)]="eventObject.dStartDate" name="dStartDate"
+                        placeholder="YYYY-MM-DD HH:MM:SS" />
+                </div>
+                <div class="form-group">
+                    <label>Event End Date Time</label>
+                    <input type="datetime-local" id="dEndDate" [(ngModel)]="eventObject.dEndDate" name="dEndDate"
+                        placeholder="YYYY-MM-DD HH:MM:SS" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Registration Starts Date</label>
+                    <input type="date" id="dRegistrationOpens" [(ngModel)]="eventObject.dRegistrationOpens"
+                        name="registrationOpensDate" placeholder="YYYY-MM-DD HH:MM:SS" />
+                </div>
+                <div class="form-group">
+                    <label>Registration Closes Date</label>
+                    <input type="date" id="dRegistrationCloses" [(ngModel)]="eventObject.dRegistrationCloses"
+                        name="registrationClosesDate" placeholder="YYYY-MM-DD HH:MM:SS" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Dress Code</label>
+                    <select  class="form-select" name="sDressCode" [(ngModel)]="eventObject.sDressCode">
+                        <option value="" disabled selected>Select Dress Code</option>
+                        <option value="Formal">Formal</option>
+                        <option value="Traditional">Traditional</option>
+                        <option value="Suit">Suit</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cost Description:</label>
+                    <select class="form-select" name="sCostDescription" [(ngModel)]="eventObject.sCostDescription">
+                        <option value="" disabled selected>Select Cost Description</option>
+                        <option value="Free">Free - Open to all participants, no registration fee required</option>
+                        <option value="Paid">Paid - Requires a registration fee for participants</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Select event visibility</label>
+                    <select class="form-select" id="event-visibility" [(ngModel)]="eventObject.bIsPublic">
+                        <option [value]="true">Public</option>
+                        <option [value]="false">Private</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Current Location:</label>
+                    <input  type="text" [formControl]="locationControl" placeholder="Enter location...">
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div style="display: flex; justify-content: end;">
+                <button type="button" (click)="submitData()" class="save-button">Update</button>
+            </div>
+        </form>
+    </div>
+
+</div>

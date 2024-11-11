@@ -5,8 +5,8 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'https://mirecall-admin-enterprise-api.ctoninja.tech',
-    // apiUrl :'http://localhost:5002',
+    // apiUrl: 'https://mirecall-admin-enterprise-api.ctoninja.tech',
+    apiUrl :'http://localhost:5002',
     qrUrl: 'https://mirecall-frontend-git-event-join-fix-mangalbazar.vercel.app',
     version: '/api/v1',
     pageTitle: ' | mi-Recall-organizer',

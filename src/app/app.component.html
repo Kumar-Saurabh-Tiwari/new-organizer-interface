@@ -1,33 +1,25 @@
 <div class="d-flex">
   <!-- Sidebar -->
-  <div *ngIf="!bIsMovileView" class="sidebar">
+  <div *ngIf="!bIsMovileView && isDisableLogin" class="sidebar">
     <div routerLink="home" style="padding: 20px;">
       <img src="../assets/head.svg" width="160px" alt="">
     </div>
     <nav style="margin-top: 20px;">
       <a routerLink="home" [class.active]="activeTab === 'Dashboard'" (click)="setActiveTab('Dashboard')"><i
           class="fas fa-home"></i> Dashboard</a>
-      <a routerLink="events" [class.active]="activeTab === 'Transactions'" (click)="setActiveTab('Transactions')"><i
-          class="fas fa-exchange-alt"></i> Transactions</a>
+      <a routerLink="events" [class.active]="activeTab === 'Events'" (click)="setActiveTab('Events')"><i
+          class="fas fa-exchange-alt"></i> Events</a>
       <a routerLink="team" [class.active]="activeTab === 'Accounts'" (click)="setActiveTab('Accounts')"><i
           class="fas fa-wallet"></i> Accounts</a>
-      <a href="#" [class.active]="activeTab === 'Investments'" (click)="setActiveTab('Investments')"><i
-          class="fas fa-chart-line"></i> Investments</a>
-      <a href="#" [class.active]="activeTab === 'Credit Cards'" (click)="setActiveTab('Credit Cards')"><i
-          class="fas fa-credit-card"></i> Credit Cards</a>
-      <a href="#" [class.active]="activeTab === 'Loans'" (click)="setActiveTab('Loans')"><i
-          class="fas fa-hand-holding-usd"></i> Loans</a>
-      <a href="#" [class.active]="activeTab === 'Services'" (click)="setActiveTab('Services')"><i
-          class="fas fa-cogs"></i> Services</a>
-      <a href="#" [class.active]="activeTab === 'My Privileges'" (click)="setActiveTab('My Privileges')"><i
-          class="fas fa-gift"></i> My Privileges</a>
       <a routerLink="profile" [class.active]="activeTab === 'Setting'" (click)="setActiveTab('Setting')"><i
           class="fas fa-cog"></i> Setting</a>
+      <a [class.active]="activeTab === 'Investments'" (click)="setActiveTab('Investments')"><i
+          class="fas fa-sign-out-alt"></i> Log Out</a>
     </nav>
 
   </div>
 
-  <div *ngIf="bIsMovileView">
+  <div *ngIf="bIsMovileView && isDisableLogin">
     <!-- Overlay -->
     <div class="overlay" [ngClass]="{'open': isSidebarOpen}" (click)="toggleSidebar()"></div>
 
@@ -39,22 +31,14 @@
       <nav style="margin-top: 20px;">
         <a routerLink="home" [class.active]="activeTab === 'Dashboard'" (click)="setActiveTab('Dashboard')"><i
             class="fas fa-home"></i> Dashboard</a>
-        <a routerLink="events" [class.active]="activeTab === 'Transactions'" (click)="setActiveTab('Transactions')"><i
-            class="fas fa-exchange-alt"></i> Transactions</a>
+        <a routerLink="events" [class.active]="activeTab === 'Events'" (click)="setActiveTab('Events')"><i
+            class="fas fa-exchange-alt"></i> Events</a>
         <a routerLink="team" [class.active]="activeTab === 'Accounts'" (click)="setActiveTab('Accounts')"><i
             class="fas fa-wallet"></i> Accounts</a>
-        <a href="#" [class.active]="activeTab === 'Investments'" (click)="setActiveTab('Investments')"><i
-            class="fas fa-chart-line"></i> Investments</a>
-        <a href="#" [class.active]="activeTab === 'Credit Cards'" (click)="setActiveTab('Credit Cards')"><i
-            class="fas fa-credit-card"></i> Credit Cards</a>
-        <a href="#" [class.active]="activeTab === 'Loans'" (click)="setActiveTab('Loans')"><i
-            class="fas fa-hand-holding-usd"></i> Loans</a>
-        <a href="#" [class.active]="activeTab === 'Services'" (click)="setActiveTab('Services')"><i
-            class="fas fa-cogs"></i> Services</a>
-        <a href="#" [class.active]="activeTab === 'My Privileges'" (click)="setActiveTab('My Privileges')"><i
-            class="fas fa-gift"></i> My Privileges</a>
         <a routerLink="profile" [class.active]="activeTab === 'Setting'" (click)="setActiveTab('Setting')"><i
             class="fas fa-cog"></i> Setting</a>
+        <a [class.active]="activeTab === 'LogOut'" (click)="logOut()"><i
+            class="fas fa-sign-out-alt"></i> Log Out</a>
       </nav>
 
     </div>
@@ -65,7 +49,7 @@
   <!-- Main Content -->
   <div class="flex-grow-1">
     <!-- Header -->
-    <div *ngIf="!bIsMovileView" class="header">
+    <div *ngIf="!bIsMovileView && isDisableLogin" class="header">
       <h2 style="font-size: 25px; color: #343C6A;">{{activeTab}}</h2>
       <div style="width: 500px; display: flex; justify-content: space-around;">
         <div class="search">
@@ -80,12 +64,12 @@
           <img src="../assets/notification.svg" width="45px" alt="">
         </div>
         <div>
-          <img routerLink="profile" src="../assets/profile.svg" width="50px" alt="">
+          <img routerLink="profile" [src]="logoUrl" width="50px" height="50px" style="border-radius: 50%;" alt="">
         </div>
       </div>
     </div>
 
-    <div *ngIf="bIsMovileView" class="mobile-header">
+    <div *ngIf="bIsMovileView && isDisableLogin" class="mobile-header">
       <div class="top-bar">
         <div>
           <img (click)="toggleSidebar()" src="../assets/mobile-view/hamburger.svg" alt="hamburger">
@@ -93,7 +77,8 @@
         <h2 style="font-size: 22px; color: #343C6A;">{{activeTab}}</h2>
 
         <div>
-          <img routerLink="profile" (click)="setActiveTab('Setting')" src="../assets/mobile-view/profile-icon.svg" alt="profile">
+          <img routerLink="profile" (click)="setActiveTab('Setting')" [src]="logoUrl" width="35px" height="35px"
+            style="border-radius: 50%;" alt="profile">
         </div>
       </div>
       <div style="width: 100%; display: flex; justify-content: space-around;">

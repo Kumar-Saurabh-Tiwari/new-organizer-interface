@@ -1,14 +1,14 @@
 <div class="transaction-container">
     <div class="tabs">
-        <button class="tab" [class.active]="activeTab === 'All Transactions'"
+        <!-- <button class="tab" [class.active]="activeTab === 'All Transactions'"
             (click)="setActiveTab('All Transactions')">
             All Transactions
+        </button> -->
+        <button class="tab" [class.active]="activeTab === 'Upcoming'" (click)="setActiveTab('Upcoming')">
+            Upcoming
         </button>
-        <button class="tab" [class.active]="activeTab === 'Income'" (click)="setActiveTab('Income')">
-            Income
-        </button>
-        <button class="tab" [class.active]="activeTab === 'Expense'" (click)="setActiveTab('Expense')">
-            Expense
+        <button class="tab" [class.active]="activeTab === 'Past'" (click)="setActiveTab('Past')">
+            Past
         </button>
     </div>
 
@@ -17,42 +17,46 @@
         <table class="transaction-table">
             <thead>
                 <tr>
+                    <th *ngIf="!bIsMovileView">Logo</th>
+                    <th *ngIf="!bIsMovileView">Event Name</th>
+                    <th *ngIf="!bIsMovileView">Start Date</th>
+                    <th *ngIf="!bIsMovileView">Start Time</th>
+                    <th *ngIf="!bIsMovileView">Event Type</th>
                     <th *ngIf="!bIsMovileView">Description</th>
-                    <th *ngIf="!bIsMovileView">Transaction ID</th>
-                    <th *ngIf="!bIsMovileView">Type</th>
-                    <th *ngIf="!bIsMovileView">Card</th>
-                    <th *ngIf="!bIsMovileView">Date</th>
-                    <th *ngIf="!bIsMovileView">Amount</th>
-                    <th *ngIf="!bIsMovileView">Receipt</th>
+                    <th *ngIf="!bIsMovileView">View</th>
+
                 </tr>
             </thead>
             <tbody *ngIf="!bIsMovileView">
-                <tr *ngFor="let transaction of transactions">
-                    <td><img style="margin-right: 10px;" src="../../../assets/round-up-arrow.svg" alt="" width="28px">
-                        {{ transaction.name }}</td>
-                    <td>{{ transaction.id }}</td>
-                    <td>{{ transaction.category }}</td>
-                    <td>{{ transaction.card }}</td>
-                    <td>{{ transaction.date }}</td>
-                    <td [ngClass]="transaction.type">{{ transaction.amount | currency }}</td>
-                    <td><button class="download-btn">{{ transaction.downloadLabel }}</button></td>
+                <tr *ngFor="let event of eventsArray">
+                    <td>
+                        <img [src]="event.sLogo" class="rounded-circle" style="width: 40px; height: 40px;" alt="Logo">
+                    </td>
+                    <td>{{ event.sName }}</td>
+                    <td>{{ event.dStartDate | date }}</td>
+                    <td>{{ convertTo12HourFormat(event.sStartTime) }}</td>
+                    <td>
+                        <span *ngIf="event.bIsPublic">Public</span>
+                        <span *ngIf="!event.bIsPublic">Private</span>
+                    </td>
+                    <td>{{ event.sDescription }}</td>
+                    <td [ngClass]="event.type">{{ event.amount | currency }}</td>
+                    <td><button routerLink="{{ event._id }}" style="margin-left: -180px !important;"
+                            class="download-btn">View</button></td>
                 </tr>
             </tbody>
 
 
             <tbody *ngIf="bIsMovileView">
-                <tr *ngFor="let transaction of transactions">
+                <tr *ngFor="let event of eventsArray">
                     <td style="display: flex;">
-                        <img style="margin-right: 10px;" src="../../../assets/round-up-arrow.svg" width="32px" alt="">
+                        <img [src]="event.sLogo" class="rounded-circle" style="width: 40px; height: 40px;" alt="Logo">
                         <div>
-                            {{ transaction.name }} <br> <small style="color: #718EBF;">{{ transaction.date }}</small>
+                            {{ event.sName }} <br> <small style="color: #718EBF;">{{ event.dStartDate | date }}</small>
                         </div>
                     </td>
-                    <td *ngIf="!bIsMovileView">{{ transaction.id }}</td>
-                    <td *ngIf="!bIsMovileView">{{ transaction.category }}</td>
-                    <td *ngIf="!bIsMovileView">{{ transaction.card }}</td>
-                    <td [ngClass]="transaction.type">{{ transaction.amount | currency }}</td>
-                    <td *ngIf="!bIsMovileView"><button class="download-btn">{{ transaction.downloadLabel }}</button>
+
+                    <td><button  routerLink="{{ event._id }}" class="download-btn">View</button>
                     </td>
                 </tr>
             </tbody>
@@ -60,35 +64,44 @@
 
     </div>
     <div>
-        <ul class="pagination">
+        <ul *ngIf="activeTab === 'Upcoming'" class="pagination">
             <!-- Previous Button with Arrow -->
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" style="color: #1814F3; font-weight: bold; font-size: 14px;">
-                   <img style="margin-right: 5px;" src="../../../assets/left-arrow.svg" width="8px" alt=""> Previous
+            <li class="page-item" [class.disabled]="currentPageForUpcoming === 1">
+                <a (click)="previousPage()" class="page-link" tabindex="-1"
+                    style="color: #1814F3; font-weight: bold; font-size: 14px;">
+                    <img style="margin-right: 5px;" src="../../../assets/left-arrow.svg" width="8px" alt=""> Previous
                 </a>
             </li>
 
-            <!-- Page 1 (Active) -->
-            <li class="page-item active">
-                <a class="page-link" href="#"
-                    style="background-color: #1814F3; color: white; font-weight: bold; font-size: 14px; border-radius: 10px;">
-                    1
-                </a>
-            </li>
-
-            <!-- Page 2 -->
-            <li class="page-item">
-                <a class="page-link" href="#" style="color: #1814F3; font-weight: bold; font-size: 14px;">2</a>
-            </li>
-
-            <!-- Page 3 -->
-            <li class="page-item">
-                <a class="page-link" href="#" style="color: #1814F3; font-weight: bold; font-size: 14px;">3</a>
+            <li *ngFor="let page of pagesForUpcoming" class="page-item"
+                [class.active]="currentPageForUpcoming === page">
+                <a class="page-link" (click)="goToPageForUpcoming(page)">{{ page }}</a>
             </li>
 
             <!-- Next Button with Arrow -->
-            <li class="page-item">
-                <a class="page-link" href="#" style="color: #1814F3; font-weight: bold; font-size: 14px;">
+            <li class="page-item" [class.disabled]="currentPageForUpcoming === totalPagesForUpcoming">
+                <a (click)="nextPage()" class="page-link" style="color: #1814F3; font-weight: bold; font-size: 14px;">
+                    Next <img style="margin-left: 5px;" src="../../../assets/right-arrow.svg" width="8px" alt="">
+                </a>
+            </li>
+        </ul>
+
+        <ul *ngIf="activeTab === 'Past'" class="pagination">
+            <!-- Previous Button with Arrow -->
+            <li class="page-item" [class.disabled]="currentPageForPast === 1">
+                <a (click)="previousPageForPast()" class="page-link" tabindex="-1"
+                    style="color: #1814F3; font-weight: bold; font-size: 14px; border: none;">
+                    <img style="margin-right: 5px; border: none;" src="../../../assets/left-arrow.svg" width="8px" alt=""> Previous
+                </a>
+            </li>
+
+            <li *ngFor="let page of pagesForPast" class="page-item" [class.active]="currentPageForPast === page">
+                <a class="page-link" (click)="goToPageForPast(page)">{{ page }}</a>
+            </li>
+
+            <!-- Next Button with Arrow -->
+            <li class="page-item" [class.disabled]="currentPageForPast === totalPagesForPast">
+                <a (click)="nextPageForPast()" class="page-link" style="color: #1814F3; font-weight: bold; font-size: 14px;">
                     Next <img style="margin-left: 5px;" src="../../../assets/right-arrow.svg" width="8px" alt="">
                 </a>
             </li>

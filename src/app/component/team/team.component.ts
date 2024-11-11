@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService } from '../../services/device.service';
+import { ApiService } from '../../services/api.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-team',
@@ -8,54 +10,93 @@ import { DeviceService } from '../../services/device.service';
   styleUrl: './team.component.scss'
 })
 export class TeamComponent {
-  bIsMovileView: boolean=false;
+  bIsMovileView: boolean = false;
 
-  constructor(private deviceService: DeviceService , private router: Router ,private route: ActivatedRoute) {
+  constructor(private deviceService: DeviceService, private router: Router, private route: ActivatedRoute, private apiService: ApiService) {
     this.deviceService.isMobile$.subscribe(isMobile => {
-      this.bIsMovileView=isMobile;
+      this.bIsMovileView = isMobile;
     });
   }
 
-  services = [
+  decodeData: any;
+  loading: boolean = false;
+  userEmail: any;
+  logindecodeData: any;
+  userType: any;
+
+  isChecked = true;
+
+  organizationStatus: any;
+
+  invitedUsersList: any = {};
+  authToken: any = '';
+  dataAvailable: boolean = false;
+
+  steps: any = [
     {
-      title: 'Business loans',
-      description: 'It is a long established',
-      publisher: 'Lorem Ipsum',
-      info: 'Many publishing',
-      color: '#F8D7DA',
-      icon: 'fas fa-briefcase'
+      element: '#elementId9',
+      intro: 'Here You add new member to team.',
     },
-    {
-      title: 'Checking accounts',
-      description: 'It is a long established',
-      publisher: 'Lorem Ipsum',
-      info: 'Many publishing',
-      color: '#FFF3CD',
-      icon: 'fas fa-wallet'
-    },
-    {
-      title: 'Savings accounts',
-      description: 'It is a long established',
-      publisher: 'Lorem Ipsum',
-      info: 'Many publishing',
-      color: '#D1ECF1',
-      icon: 'fas fa-piggy-bank'
-    },
-    {
-      title: 'Debit and credit cards',
-      description: 'It is a long established',
-      publisher: 'Lorem Ipsum',
-      info: 'Many publishing',
-      color: '#D4EDDA',
-      icon: 'fas fa-credit-card'
-    },
-    {
-      title: 'Life Insurance',
-      description: 'It is a long established',
-      publisher: 'Lorem Ipsum',
-      info: 'Many publishing',
-      color: '#C3E6CB',
-      icon: 'fas fa-shield-alt'
-    }
   ];
+  // startTour(): void {
+  //   introJs().setOptions({
+  //     steps: this.steps,
+  //   }).start();
+  // }  
+
+  ngOnInit() {
+    if (localStorage.getItem("invites") == "0") {
+      // setTimeout(()=>{
+      //   this.startTour();
+      // },3000) ;  
+
+    } else {
+      console.log("visited user!");
+    }
+
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
+
+
+    this.authToken = localStorage.getItem('token');
+    this.userEmail = localStorage.getItem('userEmail');
+
+    this.decodeData = jwtDecode(this.authToken as string);
+    // this.logindecodeData=jwtDecode(this.loginToken as string);
+    console.log(this.decodeData.eUserType);
+    this.userType = this.decodeData.eUserType;
+    this.apiService.getInvitedList(this.decodeData.iOrganizationId, this.authToken).subscribe((res) => {
+      // console.log(res.body.data);
+      if (res.body.data.totalUsers > 0) {
+        this.invitedUsersList = res.body.data.users;
+        // this.urllink = res.body.data.data.sLogo;
+        console.log(this.invitedUsersList);
+        this.dataAvailable = true
+      }
+      else {
+        this.dataAvailable = false
+      }
+    },
+    );
+
+    // this.getOrganizationStatus();
+
+  }
+  data: any = {};
+  toggleEvent(iOrganizationId: any) {
+    this.apiService.ToggleStatusPost(this.data, iOrganizationId, this.authToken).subscribe(res => {
+      console.log(res)
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (localStorage.getItem("invites") == "0") {
+
+
+      localStorage.setItem("invites", "1");
+    }
+  }
+
 }

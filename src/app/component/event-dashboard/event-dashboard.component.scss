@@ -77,7 +77,7 @@
     }
 
     .download-btn {
-      margin-left: -30px;
+      // margin-left: -60px !important;
       font-size: 15px;
       color: #123288;
       padding: 5px 15px;
@@ -85,6 +85,7 @@
       border-radius: 20px;
       cursor: pointer;
       background-color: #FFFFFF;
+
       &:hover {
         color: #1814F3;
         border: 1.5px solid #1814F3;
@@ -114,10 +115,26 @@
       }
     }
 
+    .page-item {
+      border: none;
+      cursor: pointer;
+      &.active {
+        .page-link {
+          background-color: #1814F3;
+          color: white;
+          font-weight: bold;
+          font-size: 14px;
+          border-radius: 10px;
+        }
+      }
+    }
+
     .page-link {
       border: none;
       background: transparent;
+      color: black; // Ensures the default color is set when not active
     }
+
   }
 }
 
@@ -142,11 +159,12 @@
       }
     }
   }
+
   .transaction-table {
     font-size: 13px;
 
-    thead{
-      border-bottom:none !important;
+    thead {
+      border-bottom: none !important;
     }
 
     td {

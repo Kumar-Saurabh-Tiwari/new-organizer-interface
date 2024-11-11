@@ -1,0 +1,156 @@
+/* Center the login page */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    background-color: #F6F8FB; 
+    overflow: hidden;
+  }
+  
+  .login-form {
+    width: 320px;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  
+    h2 {
+      color: #1f1f1f; /* Dark color for contrast */
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  
+    .form-group {
+      margin-bottom: 1.5rem;
+  
+      label {
+        display: block;
+        font-size: 0.9rem;
+        color: #6b6b6b;
+        text-align: left;
+        margin-bottom: 0.3rem;
+      }
+  
+      input {
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 5px;
+        border: 1px solid #dcdcdc;
+        transition: border-color 0.2s;
+  
+        &:focus {
+          border-color: #3498db; /* Matches the blue theme */
+          outline: none;
+        }
+      }
+    }
+
+    .password-group {
+        position: relative;
+    
+        .password-input-container {
+          display: flex;
+          align-items: center;
+        }
+    
+        .eye-button {
+          position: absolute;
+          right: 10px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: #6b6b6b;
+          font-size: 1rem;
+          padding: 0;
+        }
+      }
+  
+    .login-button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #4340f8; /* Blue color theme */
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+  
+      &:hover {
+        background-color: #1814F3;
+      }
+    }
+  }
+  
+  /* OTP Dialog styling */
+  .otp-container {
+    text-align: center;
+    padding: 1.5rem;
+    
+    h3 {
+      color: #333;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+  
+    .otp-input {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #dcdcdc;
+      margin-bottom: 1rem;
+  
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+      }
+    }
+  
+    .verify-button {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      background-color: #4e4bfc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+  
+      &:hover {
+        background-color: #3734fd;
+      }
+    }
+  
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+  
+      input[type="checkbox"] {
+        margin-right: 0.5rem;
+      }
+  
+      label {
+        font-size: 0.7rem;
+        color: #6b6b6b;
+      }
+    }
+  }
+  
+  
+  /* Smooth fade-in animation for the OTP dialog */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
