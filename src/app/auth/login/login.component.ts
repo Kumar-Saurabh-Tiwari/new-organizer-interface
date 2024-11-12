@@ -1,4 +1,4 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewChild, TemplateRef, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { jwtDecode } from 'jwt-decode';
@@ -20,8 +20,9 @@ export class LoginComponent {
   accessToken: any;
   decodeData: any;
   bIsRememberMe: any;
-
-  constructor(private dialog: MatDialog, private apiService: ApiService, private router: Router, private toastr: ToastrService) { }
+  intervalId: any;
+  timer: number = 300;
+  constructor(private dialog: MatDialog, private apiService: ApiService, private router: Router, private toastr: ToastrService, private ngZone: NgZone,) { }
 
   onLogin() {
     const loginData = {
@@ -37,6 +38,7 @@ export class LoginComponent {
           disableClose: true,
           panelClass: 'custom-dialog' // Add a custom panel class if needed
         });
+        this.startTimer();
       }
     }, (err) => {
       this.toastr.error('An error occurred. Please try again.', 'Error');
@@ -67,10 +69,27 @@ export class LoginComponent {
       console.log(res)
       // this.loginToken = res.headers.get('Verification');
       // localStorage.setItem('loginToken', this.loginToken);
-
-      // this.timer = 300;
-      // this.startTimer();
+      this.timer = 300;
+      this.startTimer();
     })   
+  }
+
+  startTimer(): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.intervalId = setInterval(() => {
+        this.ngZone.run(() => {
+          if (this.timer > 0) {
+            this.timer--;
+          } else {
+            this.clearTimer();
+          }
+        });
+      }, 1000);
+    });
+  }
+
+  clearTimer(): void {
+    clearInterval(this.intervalId);
   }
 
   togglePasswordVisibility() {

@@ -32,10 +32,16 @@
                     <input type="checkbox" id="rememberMe" [(ngModel)]="bIsRememberMe" name="rememberMe" />
                     <label for="rememberMe">Remember Me</label>
                 </div>
-                <div class="remember-me">
-                    <i style="margin-right: 5px; font-size: 10px;" class="fas fa-sync"></i>
-                    <label for="rememberMe">Resend OTP</label>
+                <div *ngIf="timer == 0" class="remember-me">
+                    <a (click)="resendOtp()">
+                        <i style="margin-right: 5px; font-size: 10px;" class="fas fa-sync"></i>
+                        <label for="rememberMe">Resend OTP</label>
+                    </a>
                 </div>
+            </div>
+
+            <div style="margin-top: 10px;" *ngIf="timer > 0">
+                <p style="color: black; font-size: 10px;">Resend One Time Passcode in : {{ timer }} seconds</p>
             </div>
         </div>
     </ng-template>
