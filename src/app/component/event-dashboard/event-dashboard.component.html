@@ -1,15 +1,19 @@
 <div class="transaction-container">
     <div class="tabs">
-        <!-- <button class="tab" [class.active]="activeTab === 'All Transactions'"
-            (click)="setActiveTab('All Transactions')">
-            All Transactions
-        </button> -->
-        <button class="tab" [class.active]="activeTab === 'Upcoming'" (click)="setActiveTab('Upcoming')">
-            Upcoming
-        </button>
-        <button class="tab" [class.active]="activeTab === 'Past'" (click)="setActiveTab('Past')">
-            Past
-        </button>
+        <div>
+            <button class="tab" [class.active]="activeTab === 'Upcoming'" (click)="setActiveTab('Upcoming')">
+                Upcoming
+            </button>
+            <button class="tab" [class.active]="activeTab === 'Past'" (click)="setActiveTab('Past')">
+                Past
+            </button>
+        </div>
+
+        <div>
+              <button class="tab" routerLink="create-events">
+                <i class="fas fa-calendar-plus"></i> Create Event
+              </button>
+        </div>
     </div>
 
 
@@ -30,7 +34,7 @@
             <tbody *ngIf="!bIsMovileView">
                 <tr *ngFor="let event of eventsArray">
                     <td>
-                        <img [src]="event.sLogo" class="rounded-circle" style="width: 40px; height: 40px;" alt="Logo">
+                        <img [src]="event.sLogo" onerror="this.src='https://t4.ftcdn.net/jpg/05/07/58/41/360_F_507584110_KNIfe7d3hUAEpraq10J7MCPmtny8EH7A.jpg'; this.onerror = null" class="rounded-circle" style="width: 40px; height: 40px;" alt="Logo">
                     </td>
                     <td>{{ event.sName }}</td>
                     <td>{{ event.dStartDate | date }}</td>
@@ -56,7 +60,7 @@
                         </div>
                     </td>
 
-                    <td><button  routerLink="{{ event._id }}" class="download-btn">View</button>
+                    <td><button routerLink="{{ event._id }}" class="download-btn">View</button>
                     </td>
                 </tr>
             </tbody>
@@ -91,7 +95,8 @@
             <li class="page-item" [class.disabled]="currentPageForPast === 1">
                 <a (click)="previousPageForPast()" class="page-link" tabindex="-1"
                     style="color: #1814F3; font-weight: bold; font-size: 14px; border: none;">
-                    <img style="margin-right: 5px; border: none;" src="../../../assets/left-arrow.svg" width="8px" alt=""> Previous
+                    <img style="margin-right: 5px; border: none;" src="../../../assets/left-arrow.svg" width="8px"
+                        alt=""> Previous
                 </a>
             </li>
 
@@ -101,7 +106,8 @@
 
             <!-- Next Button with Arrow -->
             <li class="page-item" [class.disabled]="currentPageForPast === totalPagesForPast">
-                <a (click)="nextPageForPast()" class="page-link" style="color: #1814F3; font-weight: bold; font-size: 14px;">
+                <a (click)="nextPageForPast()" class="page-link"
+                    style="color: #1814F3; font-weight: bold; font-size: 14px;">
                     Next <img style="margin-left: 5px;" src="../../../assets/right-arrow.svg" width="8px" alt="">
                 </a>
             </li>

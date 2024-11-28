@@ -1,40 +1,36 @@
+
+<div class="tabs">
+  <h5>Teams</h5>
+
+  <button class="tab" routerLink="add-teams">
+    <i class="fas fa-calendar-plus"></i> Add Teams
+  </button>
+</div>
 <div class="services-list-container">
-    <div *ngFor="let service of invitedUsersList" class="service-item">
+    <div *ngFor="let service of invitedUsersList || []" class="service-item">
       <div class="service-icon" [ngStyle]="{'background-color': '#F8D7DA'}">
         <i class="fas fa-briefcase"></i>
       </div>
       <div class="service-details">
-        <h3>{{ service.sName }}</h3>
-        <p>{{ service.sEmail }}</p>
+        <h3>{{ service?.sName }}</h3>
+        <p>{{ service?.sEmail }}</p>
       </div>
       <div *ngIf="!bIsMovileView" class="service-details">
-        <h3>{{ service.eUserType }}</h3>
-        <p>{{ service.eStatus }}</p>
+        <h3>{{ service?.eUserType }}</h3>
+        <p>{{ service?.eStatus }}</p>
       </div>
       <div *ngIf="!bIsMovileView" class="service-details">
         <h3>No of Event Access</h3>
-        <p *ngIf="service.noEventsAccess==0">All Events</p>
-        <p *ngIf="service.noEventsAccess!=0">{{service.noEventsAccess}} Events</p>
+        <p *ngIf="service?.noEventsAccess==0">All Events</p>
+        <p *ngIf="service?.noEventsAccess!=0">{{service?.noEventsAccess}} Events</p>
       </div>
-      <!-- <div *ngIf="!bIsMovileView" class="service-details">
-        <h3>Active/Inactive</h3>
-
-        <div style="text-align: center;" *ngIf="userType == 'admin'">
-          <div class="custom-toggle">
-            <input type="checkbox" id="toggle-{{service._id}}" (change)="toggleEvent(service._id)" [(ngModel)]="service.bIsEnabled" />
-            <label for="toggle-{{service._id}}"></label>
-          </div>
-          <img *ngIf="userEmail == service.sEmail" src="https://static.thenounproject.com/png/4154907-200.png" width="35px" alt="logo">
-        </div>
-        
-      </div> -->
       <div *ngIf="!bIsMovileView" class="service-details">
         <h3>User Privileges</h3>
-        <div style="display: inline-block; justify-content: center; margin-right: 2px;" *ngFor="let item of service.aAccessType">
+        <div style="display: inline-block; justify-content: center; margin-right: 2px;" *ngFor="let item of service?.aAccessType || []">
           <small style="background-color: rgb(213, 224, 67); padding: 5px; border-radius: 10px; font-size: 8px;">{{item}} event</small>
         </div>
       </div>
-      <button class="view-details">View Details</button>
+      <button routerLink="details" class="view-details">View Details</button>
     </div>
   </div>
   

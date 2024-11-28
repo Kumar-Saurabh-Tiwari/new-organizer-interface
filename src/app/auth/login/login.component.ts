@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +23,10 @@ export class LoginComponent {
   bIsRememberMe: any;
   intervalId: any;
   timer: number = 300;
-  constructor(private dialog: MatDialog, private apiService: ApiService, private router: Router, private toastr: ToastrService, private ngZone: NgZone,) { }
+  constructor(private dialog: MatDialog, private apiService: ApiService, private router: Router, private toastr: ToastrService, private ngZone: NgZone,private spinner: NgxSpinnerService) { }
 
   onLogin() {
+    this.spinner.show()
     const loginData = {
       sEmail: this.email,
       sPassword: this.password
@@ -40,7 +42,9 @@ export class LoginComponent {
         });
         this.startTimer();
       }
+      this.spinner.hide()
     }, (err) => {
+      this.spinner.hide()
       this.toastr.error('An error occurred. Please try again.', 'Error');
     }
     )
@@ -48,6 +52,7 @@ export class LoginComponent {
   }
 
   verifyOtp() {
+    this.spinner.show();
     const payload = { nOtp: Number(this.otp), bIsRememberMe: Boolean(this.bIsRememberMe) }
     this.apiService.verifyOTP(payload, this.accessToken).subscribe(res => {
       this.accessToken = res.headers.get('Authorization');
@@ -55,13 +60,16 @@ export class LoginComponent {
       this.toastr.success('Logged in successfully!', 'Success');
       this.router.navigateByUrl('home');
       this.dialog.closeAll();
+      this.spinner.hide()
     },(err)=>{
+      this.spinner.hide()
       this.toastr.error('An error occurred. Please try again.', 'Error');
     }
   )
   }
 
   resendOtp(){
+    this.spinner.show()
     const data={
       sEmail:this.email
     }
@@ -71,6 +79,9 @@ export class LoginComponent {
       // localStorage.setItem('loginToken', this.loginToken);
       this.timer = 300;
       this.startTimer();
+      this.spinner.hide()
+    },(err)=>{
+      this.spinner.hide()
     })   
   }
 

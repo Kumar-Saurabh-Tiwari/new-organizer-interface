@@ -1,0 +1,112 @@
+.create-event-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.profile-picture {
+    margin-right: 50px;
+    position: relative;
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #DFEAF2;
+    border-radius: 50%;
+
+    #profile-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        //   border: 3px solid #2d60ff;
+    }
+
+    #edit-icon {
+        position: absolute;
+        bottom: 20px;
+        right: 5px;
+        background-color: #2d60ff;
+        color: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+
+.steps {
+    .step {
+        height: 500px;
+        display: none;
+
+        &.active {
+            display: block;
+        }
+
+        h3{
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+    }
+
+    #step-tab {
+        display: flex;
+        flex-direction: column;
+        /* Stack elements vertically on mobile */
+        align-items: center;
+        /* Center-align the content horizontally */
+        gap: 20px;
+        /* Add spacing between elements */
+    }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .form-group {
+        width: 100%;
+
+        @media(min-width: 768px) {
+            width: 48%;
+        }
+
+        label {
+            font-size: 14px;
+            color: #232323;
+        }
+
+        input,
+        select,
+        textarea {
+            color: #718EBF;
+            border: 1px solid #DFEAF2;
+            height: 45px;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 15px;
+        }
+    }
+
+    .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .steps {
+        .step {
+            height: 100%;
+        }
+    }
+
+}

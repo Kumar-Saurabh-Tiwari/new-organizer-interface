@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
     }else if (this.currentPath === 'events/_id') {
       this.activeTab = 'View-Events';
     } else if (this.currentPath === 'team') {
-      this.activeTab = 'Accounts';
+      this.activeTab = 'Teams';
     } else if (this.currentPath === 'get-events') {
       this.activeTab = 'Events';
     }

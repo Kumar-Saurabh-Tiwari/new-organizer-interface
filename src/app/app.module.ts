@@ -8,13 +8,19 @@ import { EventDashboardComponent } from './component/event-dashboard/event-dashb
 import { UserProfileComponent } from './component/user-profile/user-profile.component';
 import { TeamComponent } from './component/team/team.component';
 import { DatePipe } from '@angular/common'; // Import DatePipe
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ViewEventComponent } from './component/view-event/view-event.component';
 import { LoginComponent } from './auth/login/login.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerInterceptor } from '../spinner.interceptor';
+import { CreateEventComponent } from './component/create-event/create-event.component';
+import { TeamsDetailsComponent } from './component/teams-details/teams-details.component';
+import { AddTeamsComponent } from './component/add-teams/add-teams.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +29,10 @@ import { ToastrModule } from 'ngx-toastr';
     UserProfileComponent,
     TeamComponent,
     ViewEventComponent,
-    LoginComponent
+    LoginComponent,
+    CreateEventComponent,
+    TeamsDetailsComponent,
+    AddTeamsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -37,6 +46,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    NgxSpinnerModule.forRoot(),
   ],
   providers: [
     provideHttpClient(
@@ -44,6 +54,9 @@ import { ToastrModule } from 'ngx-toastr';
     ),
     DatePipe,
     provideAnimationsAsync(),
+
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true }
+  
   ],
   bootstrap: [AppComponent]
 })

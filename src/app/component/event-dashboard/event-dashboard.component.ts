@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DeviceService } from '../../services/device.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-event-dashboard',
@@ -87,7 +88,7 @@ export class EventDashboardComponent {
   ];
 
 
-  constructor(private deviceService: DeviceService, private apiService: ApiService, private router: Router) {
+  constructor(private deviceService: DeviceService, private apiService: ApiService, private router: Router,private spinner: NgxSpinnerService) {
     this.deviceService.isMobile$.subscribe(isMobile => {
       this.bIsMovileView = isMobile;
     });
@@ -269,6 +270,7 @@ export class EventDashboardComponent {
     this.authToken = localStorage.getItem("token");
     // this.decodeData = jwtDecode(this.authToken as string);
 
+    this.spinner.show();
     this.apiService
       .getUpcomingEvents('66c733fb6ae24d535469707f', this.authToken)
       .subscribe(
@@ -285,13 +287,15 @@ export class EventDashboardComponent {
             this.dataAvailable = false;
             console.log("No Data Available");
           }
+          this.spinner.hide()
         },
         (error) => {
+          this.spinner.hide()
           // Swal.fire("Authentication Failed");
           this.router.navigateByUrl("login");
         }
       );
-
+    this.spinner.show();
     this.apiService
       .getPastEvents('66c733fb6ae24d535469707f', this.authToken)
       .subscribe((res) => {
@@ -306,6 +310,9 @@ export class EventDashboardComponent {
         } else {
           this.dataAvailable = false;
         }
+        this.spinner.hide()
+      },(err)=>{
+        this.spinner.hide()
       });
 
     this.setGreetingMessage();

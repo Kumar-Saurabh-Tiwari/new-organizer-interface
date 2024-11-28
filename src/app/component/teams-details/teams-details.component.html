@@ -1,0 +1,59 @@
+<section class="teams-details">
+    <!-- Header -->
+    <div class="header">
+      <h2>User Details</h2>
+    </div>
+  
+    <!-- User Form -->
+    <form class="user-form">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="sEmail" [(ngModel)]="eventObject.sEmail" />
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" type="text" name="sName" [(ngModel)]="eventObject.sName" />
+      </div>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <input id="role" type="text" name="sDescription" [(ngModel)]="eventObject.eUserType" />
+      </div>
+    </form>
+  
+    <!-- Update Events -->
+    <div class="section">
+      <h4>Update Events to Access</h4>
+      <div class="events-container">
+        <div class="event-box" *ngFor="let result of results; let i = index">
+          <span>{{ result.sName }}</span>
+          <input
+            type="checkbox"
+            [checked]="isEventInvited(result._id)"
+            (change)="onCheckboxChange($event, result._id, result.sName)"
+            />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Update Privileges -->
+    <div class="section">
+      <h4>Update User Privileges</h4>
+      <div class="events-container">
+        <div class="event-box" *ngFor="let result of invitedAccess; let i = index">
+          <span>{{ result.sName }}</span>
+          <input
+            type="checkbox"
+            [checked]="checkIsPresent(result.value)"
+            (change)="onCheckboxChange2($event, result.value)"
+          />
+        </div>
+      </div>
+    </div>
+  
+    <!-- Buttons -->
+    <div class="actions">
+      <button class="btn btn-danger" (click)="deleteEvent()">Remove User</button>
+      <button class="btn btn-primary" (click)="updateEvent()">Update User</button>
+    </div>
+  </section>
+  

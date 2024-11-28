@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { SharedService } from '../../services/shared.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,7 +15,7 @@ export class UserProfileComponent {
   activeTab: string = 'User Profile';
 
   uploadImg: boolean=false;
-  constructor(private apiServices: ApiService,private router:Router,private sharedService:SharedService) {}
+  constructor(private apiServices: ApiService,private router:Router,private sharedService:SharedService,private spinner: NgxSpinnerService) {}
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   onEditIconClick() {
@@ -173,15 +174,20 @@ export class UserProfileComponent {
   }
 
   getPersonalDetails() {
+    this.spinner.show()
     this.apiServices
       .getPersonalDetailsInOnbording(this.decodeData.iAdminId, this.authToken)
       .subscribe((res) => {
         console.log("Personal_Details ", res.body.data);
         this.allPersonalDetails = res.body.data;
+        this.spinner.hide();
+      },(err)=>{
+        this.spinner.hide();
       });
   }
 
   getOrganizationDetails() {
+    this.spinner.show()
     this.apiServices
       .getBusinessDetailsOfOnbordingOrganization(
         this.decodeData.iOrganizationId,
@@ -192,6 +198,9 @@ export class UserProfileComponent {
         this.allBusinessDetails = res.body.data;
         console.log(this.allBusinessDetails.sLogo)
         this.sharedService.setBusinessLogo(this.allBusinessDetails.sLogo);
+        this.spinner.hide()
+      },(err)=>{
+        this.spinner.hide()
       });
   }
 
@@ -209,6 +218,7 @@ export class UserProfileComponent {
 
   domainData: any = { sSubDomain: "" };
   checkAndUpdateSubDomains() {
+    this.spinner.show();
     this.domainData.sSubDomain = this.allDomainDetails.data;
     this.apiServices
       .checkNewSubDomain(this.domainData, this.authToken)
@@ -217,14 +227,11 @@ export class UserProfileComponent {
           console.log(res);
           this.createNewDomain();
           // Swal.fire("Sub Domain is available success");
+          this.spinner.hide()
         },
         (error) => {
+          this.spinner.hide()
           console.error("Error:", error);
-          // Swal.fire({
-          //   icon: "error",
-          //   title: "Oops...",
-          //   text: "Sub Domain Already Exists !",
-          // });
         }
       );
   }

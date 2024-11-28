@@ -2,6 +2,7 @@ import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,7 +52,7 @@ steps:any = [
   hideValue:boolean=false;
   selectedContainer: string = 'upcoming';
   public myAngularxQrCode: string = 'null';
-  constructor(private apiService:ApiService, private router:Router) {}
+  constructor(private apiService:ApiService, private router:Router,private spinner: NgxSpinnerService) {}
 
   pastEventsArray: any[] = [];
   upcomingEventsArray:any[]=[];
@@ -148,7 +149,7 @@ tooltipShown = false;
       setTimeout(() => {
         this.loading = false;
       }, 2000);
-      
+      this.spinner.show();
       this.apiService.getUpcomingEvents(this.decodeData.iOrganizationId,this.authToken).subscribe((res) => {
         console.log(res.body.data);
         if( res.body.upcomingEvents.length>0){
@@ -158,13 +159,16 @@ tooltipShown = false;
         else{
          console.log("No Data Available");
         } 
+        this.spinner.hide();
     },
     (error)=>{
+      this.spinner.hide();
       //  Swal.fire("Authentication Failed")
-       this.router.navigateByUrl('login')
+      //  this.router.navigateByUrl('login')
     }
     );
 
+    this.spinner.show();
     this.apiService.getPastEvents(this.decodeData.iOrganizationId,this.authToken).subscribe((res) => {
       console.log(res);
       if( res.body.pastEvents.length >0){
@@ -174,7 +178,10 @@ tooltipShown = false;
       else{
         console.log("No Data Available");
       }
-  },
+      this.spinner.hide();
+  },(err)=>{
+    this.spinner.hide();
+  }
   );
     this.setGreetingMessage();
   }
