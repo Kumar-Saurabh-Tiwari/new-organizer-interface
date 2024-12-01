@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 export class ViewEventComponent {
 
   private locationSubscription: Subscription;
+  mapEnable:boolean=false;
 
   loading: boolean = false;
   locationControl = new FormControl();
@@ -59,6 +60,22 @@ export class ViewEventComponent {
     const generatedId = this.currentId;
     // this.sharedService.eventId(generatedId);
   }
+
+  
+  openMap(){
+    this.mapEnable=true;
+  }
+
+  setLocation(location: { lat: number; lng: number; address: string }) {
+    this.eventForm.get('sLocationPhysical')?.setValue(location.address);
+    this.mapEnable = false;
+    console.log('Selected Location:', location); // For debugging
+  }
+  closeMap(cancelled: any) {
+    console.log('Map selection cancelled:', cancelled);
+    this.mapEnable = false;
+  }
+
 
   constructor( private apiService:ApiService, private activateRoute: ActivatedRoute,private router:Router, private datePipe: DatePipe, private mapServices:MapService){
     this.locationSubscription = this.locationControl.valueChanges.pipe(

@@ -1,0 +1,21 @@
+  <div mat-dialog-content>
+    <google-map
+      height="500px"
+      width="100%"
+      [center]="center"
+      [zoom]="zoom"
+      (mapClick)="onMapClick($event)"
+    >
+      <map-marker
+        [position]="markerPosition"
+        [options]="markerOptions"
+        (mapDragend)="onMarkerDragEnd($event)"
+      >
+      </map-marker>
+    </google-map>
+  </div>
+  <div class="buttons">
+    <button class="btn btn-danger" (click)="cancelLocation()">Cancel</button>
+    <button class="btn btn-primary" (click)="saveLocation()">Save</button>
+  </div>
+  

@@ -20,6 +20,9 @@ import { SpinnerInterceptor } from '../spinner.interceptor';
 import { CreateEventComponent } from './component/create-event/create-event.component';
 import { TeamsDetailsComponent } from './component/teams-details/teams-details.component';
 import { AddTeamsComponent } from './component/add-teams/add-teams.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapComponent } from './component/google-map/google-map.component';
+import { QuestionEngineComponent } from './component/question-engine/question-engine.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { AddTeamsComponent } from './component/add-teams/add-teams.component';
     LoginComponent,
     CreateEventComponent,
     TeamsDetailsComponent,
-    AddTeamsComponent
+    AddTeamsComponent,
+    GoogleMapComponent,
+    QuestionEngineComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -47,6 +52,7 @@ import { AddTeamsComponent } from './component/add-teams/add-teams.component';
       preventDuplicates: true,
     }),
     NgxSpinnerModule.forRoot(),
+    GoogleMapsModule
   ],
   providers: [
     provideHttpClient(

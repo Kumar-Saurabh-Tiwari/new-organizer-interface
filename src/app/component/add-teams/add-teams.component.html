@@ -1,44 +1,52 @@
 <div class="main-content">
     <div class="card-body">
         <form [formGroup]="inviteForm" class="form-container">
-            <!-- Invite by Email -->
-            <div class="form-group">
-                <label for="email" class="form-label">Invite Member by Email</label>
-                <input type="email" id="email" name="email" placeholder="Email address" formControlName="email"
-                    class="form-input" />
-                <small class="error-message"
-                    *ngIf="inviteForm.get('email')?.invalid && inviteForm.get('email')?.touched">
-                    Email is required.
-                </small>
+            <div class="row-view">
+                <!-- Invite by Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Invite Member by Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email address" formControlName="email"
+                        class="form-input" />
+                    <small class="error-message"
+                        *ngIf="inviteForm.get('email')?.invalid && inviteForm.get('email')?.touched">
+                        Email is required.
+                    </small>
+                </div>
+
+                <!-- User Name -->
+                <div class="form-group">
+                    <label for="name" class="form-label">User Name</label>
+                    <input type="text" id="name" name="name" placeholder="User Name" formControlName="name"
+                        class="form-input" />
+                </div>
             </div>
 
-            <!-- User Name -->
-            <div class="form-group">
-                <label for="name" class="form-label">User Name</label>
-                <input type="text" id="name" name="name" placeholder="User Name" formControlName="name"
-                    class="form-input" />
+            <div class="row-view">
+                <!-- Role Dropdown -->
+                <div class="form-group">
+                    <label for="role" class="form-label">Role</label>
+                    <select id="role" name="role" formControlName="type" class="form-input">
+                        <option value="staff">Staff</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <!-- Event Access Count -->
+                <div class="form-group">
+                    <label for="role" class="form-label">Event Access</label>
+
+                    <div class="event-count">
+                        <span class="info-value">{{ InvitedAccessData.iEventIds.length }}/{{results.length}}</span>
+                        <span class="info-label">No of Events User Can Access:</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Role Dropdown -->
-            <div class="form-group">
-                <label for="role" class="form-label">Role</label>
-                <select id="role" name="role" formControlName="type" class="form-input">
-                    <option value="staff">Staff</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-
-            <!-- Event Access Count -->
-            <div class="form-group">
-                <span class="info-label">No of Events User Can Access:</span>
-                <strong class="info-value">{{ InvitedAccessData.iEventIds.length }}</strong>
-            </div>
-
+            <br>
             <!-- Select Events Section -->
             <div class="form-group">
                 <div class="form-header">
                     <span class="info-label">Select Events for the Invited User:</span>
-                    <button type="button" class="btn btn-primary" (click)="addAllData()">Add All Events</button>
                 </div>
                 <div class="event-list">
                     <div class="event-box" *ngFor="let result of results; let i = index">
@@ -49,6 +57,7 @@
                 </div>
             </div>
 
+            <br>
             <!-- Privileges Section -->
             <div class="form-group">
                 <span class="info-label">Select User Privileges:</span>
@@ -63,6 +72,7 @@
 
             <!-- Footer -->
             <div class="form-footer">
+                <button type="button" class="btn btn-primary" (click)="addAllData()">Add All Events</button>
                 <button type="button" class="btn btn-success" (click)="submitForm()">Continue</button>
             </div>
         </form>

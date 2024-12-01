@@ -1,4 +1,4 @@
-<div class="user-profile">
+<div *ngIf="!mapEnable" class="user-profile">
 
     <!-- Profile and Form Container -->
     <div class="profile-container">
@@ -81,9 +81,9 @@
                         <option [value]="false">Private</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div (click)="openMap()"  class="form-group">
                     <label>Current Location:</label>
-                    <input  type="text" [formControl]="locationControl" placeholder="Enter location...">
+                    <input  type="text"  [(ngModel)]="eventObject.sLocationPhysical" name="sLocationPhysical" placeholder="Enter location...">
                 </div>
             </div>
 
@@ -94,4 +94,8 @@
         </form>
     </div>
 
+</div>
+
+<div *ngIf="mapEnable">
+    <app-google-maps (locationSelected)="setLocation($event)"  (cancelSelection)="closeMap($event)"></app-google-maps>
 </div>

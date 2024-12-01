@@ -1,90 +1,3 @@
-// import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-create-event',
-//   templateUrl: './create-event.component.html',
-//   styleUrls: ['./create-event.component.scss']
-// })
-// export class CreateEventComponent implements OnInit {
-//   @ViewChild('fileInput') fileInput!: ElementRef;
-//   imageUrl: any;
-
-//   onLogoChange(event: any): void {
-//     const file = event.target.files[0];
-//     if (file) {
-//        const reader = new FileReader();
-//       reader.onload = (e: any) => {
-//           this.imageUrl= e.target.result
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   }
-
-//   onEditIconClick() {
-//      this.fileInput.nativeElement.click();
-//   }
-
-//   eventForm!: FormGroup;
-//   currentStep = 1;
-
-//   constructor(private fb: FormBuilder) {}
-
-//   ngOnInit(): void {
-//     this.initializeForm();
-//   }
-
-//    initializeForm(): void {
-//     this.eventForm = this.fb.group({
-//       iOrganizationId: [''],
-//       userId: [''],
-//       sName: ['', Validators.required],
-//       sLogo: [''], 
-//       sDescription: ['', Validators.required],
-//       dStartDate: [null, Validators.required],  
-//       sStartTime: ['11:00'], 
-//       dEndDate: [null, Validators.required], 
-//       sEndTime: ['18:00'],
-//       dRegistrationOpens: [''],
-//       dRegistrationCloses: [''],
-//       sLocationPhysical: [''],
-//       sLocationDigital: [''],
-//       sLocationAddress: [''],
-//       locCoordinates: this.fb.group({
-//         type: ['Point'],
-//         coordinates: [[0, 0]]
-//       }),
-//       sLocationDescription: [''],
-//       sCostDescription: [''],
-//       bAgeRestricted: [false],
-//       bIsPublic: [false],
-//       sDressCode: [''],
-//       bAllowRegistration: [true],
-//       sEventStatus: ['Open'],
-//     });
-//   }
-
-//    nextStep(): void {
-//     if (this.currentStep < 3) {
-//       this.currentStep++;
-//     }
-//   }
-
-//    prevStep(): void {
-//     if (this.currentStep > 1) {
-//       this.currentStep--;
-//     }
-//   }
-
-//    submitForm(): void {
-//     console.log(this.eventForm.value);
-//   }
-
-//    isLastStep(): boolean {
-//     return this.currentStep === 3;
-//   }
-// }
-
 import { Component, ElementRef, NgZone, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -156,7 +69,7 @@ export class CreateEventComponent {
 
   // marker: google.maps.Marker;
   // map!: google.maps.Map;
-
+  mapEnable:boolean=false;
   locationControl = new FormControl();
   locations: any[] = [];
   selectedLocation: any;
@@ -186,6 +99,23 @@ export class CreateEventComponent {
     this.initializeForm();
   }
 
+  openMap(){
+    this.mapEnable=true;
+  }
+
+  setLocation(location: { lat: number; lng: number; address: string }) {
+    this.eventForm.get('sLocationPhysical')?.setValue(location.address);
+    this.mapEnable = false;
+    this.locationData.coordinates = [];
+    this.locationData.coordinates.push(location.lat)
+    this.locationData.coordinates.push(location.lng)
+    console.log('Selected Location:', location); // For debugging
+  }
+  closeMap(cancelled: any) {
+    console.log('Map selection cancelled:', cancelled);
+    this.mapEnable = false;
+  }
+
   DataURIToBlob(dataURI: string) {
     const splitDataURI = dataURI.split(',')
     const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
@@ -212,7 +142,7 @@ export class CreateEventComponent {
       sEndTime: ['18:00'], // time
       dRegistrationOpens: [''],
       dRegistrationCloses: [''],
-      sLocationPhysical: [' '],
+      sLocationPhysical: [''],
       sLocationDigital: [''],
       sLocationAddress: [''],
       locCoordinates: this.fb.group({
@@ -425,36 +355,6 @@ export class CreateEventComponent {
     }
   }
 
-  // initMap() {
-  //   const mapOptions: google.maps.MapOptions = {
-  //     center: { lat: 51.505, lng: -0.09 },
-  //     zoom: 13
-  //   };
-  //   this.map = new google.maps.Map(this.gmap.nativeElement, mapOptions);
-
-  //   // Add click event listener to the map
-  //   this.map.addListener('click', (event: google.maps.MouseEvent) => {
-  //     this.zone.run(() => {
-  //       console.log('Clicked at:', event.latLng.lat(), event.latLng.lng());
-  //       // You can save the clicked coordinates or perform further actions here
-  //     });
-  //   });
-  // }
-
-  // onMapClick(event: LeafletMouseEvent): void {
-  //   const lat = event.latlng.lat;
-  //   const lng = event.latlng.lng;
-
-  //   this.center = latLng(lat, lng);
-  //   this.layers = [];
-  //   this.layers.push(marker([lat, lng]));
-  //   this.eventForm.patchValue({
-  //     locCoordinates: {
-  //       type: 'Point', // Assuming you want to set type as 'Point'
-  //       coordinates: [lng, lat]
-  //     }
-  //   });
-  // }
 
   urllink: string = "https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw=";
   selectFiles(event: any) {
@@ -775,7 +675,7 @@ export class CreateEventComponent {
   //   });
   // }
 
-  closeMap() {
-    this.isMapMode = false
-  }
+  // closeMap() {
+  //   this.isMapMode = false
+  // }
 }

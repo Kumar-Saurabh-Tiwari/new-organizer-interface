@@ -10,6 +10,7 @@ import { LoginGuard } from './guards/login.guard';
 import { CreateEventComponent } from './component/create-event/create-event.component';
 import { AddTeamsComponent } from './component/add-teams/add-teams.component';
 import { TeamsDetailsComponent } from './component/teams-details/teams-details.component';
+import { QuestionEngineComponent } from './component/question-engine/question-engine.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -20,8 +21,9 @@ const routes: Routes = [
   { path: 'events/:_id', component: ViewEventComponent ,canActivate: [LoginGuard]},
   { path: 'profile', component: UserProfileComponent,canActivate: [LoginGuard] },
   { path: 'team', component: TeamComponent ,canActivate: [LoginGuard]},
-  { path: 'team/details', component: TeamsDetailsComponent ,canActivate: [LoginGuard]},
-  { path: 'team/add-teams', component: AddTeamsComponent ,canActivate: [LoginGuard]}
+  { path: 'team/details/:_id', component: TeamsDetailsComponent ,canActivate: [LoginGuard]},
+  { path: 'team/add-teams', component: AddTeamsComponent ,canActivate: [LoginGuard]},
+  { path: 'question-engine', component: QuestionEngineComponent ,canActivate: [LoginGuard]}
 
 ];
 

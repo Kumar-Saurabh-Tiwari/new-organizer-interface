@@ -1,0 +1,112 @@
+<div class="question-engine-container">
+    <section class="question-section">
+      <!-- Question Form -->
+      <div *ngIf="addQuestion" class="form-container">
+        <h2 class="section-title">Add a Question</h2>
+        <form (ngSubmit)="onSubmit()" class="question-form">
+          <!-- Question Title -->
+          <div class="form-group">
+            <label for="title">Question Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              [(ngModel)]="questionData.sTitle"
+              placeholder="Enter question title"
+              required
+            />
+          </div>
+  
+          <!-- Question Description -->
+          <div class="form-group">
+            <label for="description">Question Description</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="3"
+              [(ngModel)]="questionData.sDescription"
+              placeholder="Enter description"
+            ></textarea>
+          </div>
+  
+          <!-- Question Type Dropdown -->
+          <div class="form-group">
+            <label for="selectedType">Select Question Type</label>
+            <select
+              id="selectedType"
+              [(ngModel)]="selectedType"
+              (change)="onQuestionTypeChange()"
+              name="questionType"
+            >
+              <option value="" disabled selected>Select Question Type</option>
+              <option *ngFor="let type of questionTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+  
+          <!-- Dynamic Fields -->
+          <div class="dynamic-fields">
+            <div *ngIf="selectedType === 'Dropdown'" class="dropdown-options">
+              <h5>Multiple Choice Options</h5>
+              <ul class="option-list">
+                <li *ngFor="let option of optionsDataArray; let i = index" class="option-item">
+                  {{ option }}
+                  <button type="button" class="remove-btn" (click)="removeOption(i)">Remove</button>
+                </li>
+              </ul>
+              <div class="input-group">
+                <input
+                  type="text"
+                  [(ngModel)]="newOption"
+                  placeholder="Enter new option"
+                />
+                <button type="button" (click)="addOption()" class="add-btn">+</button>
+              </div>
+            </div>
+  
+            <p *ngIf="selectedType === 'Yes/No'" class="info-message">Answer Type: Yes or No</p>
+            <p *ngIf="selectedType === 'Type-Answer'" class="info-message">User will type the answer in the input box.</p>
+          </div>
+  
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Submit Question</button>
+          </div>
+        </form>
+      </div>
+  
+      <!-- Questions List -->
+      <div *ngIf="!addQuestion" class="question-list">
+        <div class="list-header">
+          <h2 class="section-title">Questions List</h2>
+          <button (click)="openAddQuestion()" class="btn-add-question">
+            <img src="https://cdn-icons-png.flaticon.com/512/8922/8922789.png" alt="Add Question" /> Add Question
+          </button>
+        </div>
+  
+        <div *ngIf="questions.length > 0" class="question-items">
+          <div class="question-card" *ngFor="let question of questions; let i = index">
+            <a routerLink="{{ question._id }}">
+              <div class="question-header">
+                <span class="question-index">{{ i + 1 }}.</span>
+                <span *ngIf="question.dCreatedDate === question.dUpdatedDate; else showUpdatedDate" class="question-date">
+                  Created: {{ question.dCreatedDate | date }}
+                </span>
+                <ng-template #showUpdatedDate>
+                  <span class="question-date">Updated: {{ question.dUpdatedDate | date }}</span>
+                </ng-template>
+              </div>
+              <div class="question-body">
+                <h4>Question: {{ question?.sTitle }}?</h4>
+                <p>Description: {{ question?.sDescription }}</p>
+                <p>Type: {{ question?.sType }}</p>
+                <p *ngIf="question.sType === 'Dropdown'">Options: {{ question?.sOptions }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+  
+        <p *ngIf="questions.length === 0" class="no-questions">No questions available</p>
+      </div>
+    </section>
+  </div>
+  
