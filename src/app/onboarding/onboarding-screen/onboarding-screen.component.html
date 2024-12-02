@@ -1,0 +1,69 @@
+<br>
+<div class="onboarding-container">
+    <div>
+        <span>
+            <span>Step {{ step }} of 3</span>
+        </span>
+        <span>
+            <a *ngIf="step > 1" (click)="onBack()" class="back-link">Back</a>
+        </span>
+    </div>
+
+    <h2>Get Started with Your New Account</h2>
+
+    <div class="form-container">
+        <div *ngIf="step === 1">
+            <form [formGroup]="formStep1">
+                <label for="brandedUrl">Set up your unique branded URL <span style="color: red;">*</span> :</label>
+                <div class="branded-url-container">
+                    <input type="text" id="brandedUrl" formControlName="sSubDomain" placeholder="your sub-domain" />
+                    .mi-recall.com
+                </div>
+                <button type="button" class="common-btn w-100" (click)="checkSubDomains()">Next Step</button>
+            </form>
+        </div>
+
+        <div *ngIf="step === 2">
+            <form>
+                <label for="details">Personal Details</label>
+                <p>Organisation Name:</p>
+                <input type="text" id="name" name="sName" [(ngModel)]="personalDetailForm.sName"
+                    placeholder="User Name Required *" disabled />
+                <p>Organisation Email:</p>
+                <input type="text" id="sEmail" name="sEmail" [(ngModel)]="personalDetailForm.sEmail"
+                    placeholder="User Email"  />
+                <p>Contact Number:</p>
+                <input type="number" id="nPhone" name="nPhone" [(ngModel)]="personalDetailForm.nPhone"
+                    placeholder="Contact Number" />
+                <button type="button" (click)="addPersonalDetails()">Next Step</button>
+            </form>
+        </div>
+
+        <div *ngIf="step === 3">
+            <form>
+                <label for="companyLogo">Professional Details</label>
+                <div class="profile-pic-div">
+                    <label for="file">
+                        <img [src]="urllink" id="photo" width="50px" height="50px" />
+                    </label>
+                    <input type="file" id="file" (change)="selectFiles($event)" />
+                    <!-- <small>Update Logo</small> -->
+                </div>
+                <p>Business Name:</p>
+                <input type="text" id="name" name="sName" [(ngModel)]="BusinessDetailForm.sName"
+                    placeholder="Business Name Required *" disabled />
+                <input type="text" id="sAddress" name="sAddress" [(ngModel)]="BusinessDetailForm.sAddress"
+                    placeholder="Business Address" />
+                <input type="text" id="twitterURL" name="sTwitterUrl" [(ngModel)]="BusinessDetailForm.sTwitterUrl"
+                    placeholder="Twitter URL" />
+                <input type="text" id="linkedInURL" name="sFacebookUrl" [(ngModel)]="BusinessDetailForm.sFacebookUrl"
+                    placeholder="LinkedIn URL" />
+                <input type="text" id="facebookURL" name="sLinkedinUrl" [(ngModel)]="BusinessDetailForm.sLinkedinUrl"
+                    placeholder="Facebook URL" />
+                <input type="text" id="sWebsite" name="sWebsite" [(ngModel)]="BusinessDetailForm.sWebsite"
+                    placeholder="Website URL" />
+                <button type="submit" (click)="submitData()">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

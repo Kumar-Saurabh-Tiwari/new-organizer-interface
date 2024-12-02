@@ -23,6 +23,9 @@ import { AddTeamsComponent } from './component/add-teams/add-teams.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapComponent } from './component/google-map/google-map.component';
 import { QuestionEngineComponent } from './component/question-engine/question-engine.component';
+import { VerifyUserComponent } from './verification/verify-user/verify-user.component';
+import { QuestionEngineSelectedComponent } from './component/question-engine-selected/question-engine-selected.component';
+import { OnboardingScreenComponent } from './onboarding/onboarding-screen/onboarding-screen.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { QuestionEngineComponent } from './component/question-engine/question-en
     TeamsDetailsComponent,
     AddTeamsComponent,
     GoogleMapComponent,
-    QuestionEngineComponent
+    QuestionEngineComponent,
+    VerifyUserComponent,
+    QuestionEngineSelectedComponent,
+    OnboardingScreenComponent
   ],
   imports: [
     BrowserAnimationsModule,

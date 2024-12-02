@@ -66,12 +66,16 @@ export class ViewEventComponent {
     this.mapEnable=true;
   }
 
-  setLocation(location: { lat: number; lng: number; address: string }) {
-    this.eventForm.get('sLocationPhysical')?.setValue(location.address);
-    this.mapEnable = false;
-    console.log('Selected Location:', location); // For debugging
+  setLocation(event: { lat: number; lng: number; address: string }) {
+    console.log('Selected Location:', event);
+
+    // Update eventObject with the selected location
+    this.eventObject.sLocationPhysical = event.address;
+    this.eventObject.locCoordinates.coordinates = [event.lng, event.lat];
+    this.mapEnable = false; // Close the map
   }
-  closeMap(cancelled: any) {
+
+  closeMap(cancelled: boolean) {
     console.log('Map selection cancelled:', cancelled);
     this.mapEnable = false;
   }

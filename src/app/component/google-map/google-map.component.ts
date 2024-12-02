@@ -1,48 +1,45 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-google-maps',
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.scss'],
 })
-export class GoogleMapComponent implements OnInit {
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  zoom = 14;
-  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  markerOptions: google.maps.MarkerOptions = { draggable: true };
+export class GoogleMapComponent implements OnInit, OnChanges {
+  @Input() initialCoordinates: { lat: number; lng: number } | null = null;
+  @Input() initialAddress: string | null = null;
 
   @Output() locationSelected = new EventEmitter<{ lat: number; lng: number; address: string }>();
   @Output() cancelSelection = new EventEmitter<boolean>();
 
-  constructor() {}
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom = 14;
+  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  markerOptions: google.maps.MarkerOptions = { draggable: true };
+  address: string = '';
 
   ngOnInit(): void {
-    this.getUserLocation();
-  }
-
-  onMapClick(event: google.maps.MapMouseEvent) {
-    if (event.latLng) {
-      this.updateLocation(event.latLng.lat(), event.latLng.lng());
+    if (this.initialCoordinates) {
+      this.setMapData();
+    } else {
+      this.getUserLocation();
     }
   }
 
-  // Update location based on lat/lng
-  updateLocation(lat: number, lng: number) {
-    this.markerPosition = { lat, lng };
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialCoordinates'] || changes['initialAddress']) {
+      this.setMapData();
+    }
+  }
 
-    // Fetch the address using the Geocoding API
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        const address = results[0].formatted_address;
-
-        // Emit the updated location
-        this.locationSelected.emit({ lat, lng, address });
-      } else {
-        console.error('Geocoder failed due to:', status);
-        this.locationSelected.emit({ lat, lng, address: 'Address not available' });
-      }
-    });
+  setMapData() {
+    if (this.initialCoordinates) {
+      this.center = { ...this.initialCoordinates };
+      this.markerPosition = { ...this.initialCoordinates };
+    }
+    if (this.initialAddress) {
+      this.address = this.initialAddress;
+    }
   }
 
   getUserLocation() {
@@ -70,25 +67,39 @@ export class GoogleMapComponent implements OnInit {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       };
+      this.updateAddress();
     }
   }
 
-  saveLocation() {
-    const { lat, lng } = this.markerPosition;
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      this.markerPosition = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      };
+      this.updateAddress();
+    }
+  }
 
-    // Use Google Maps Geocoding API to get the address
+  updateAddress() {
     const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    geocoder.geocode({ location: this.markerPosition }, (results, status) => {
       if (status === 'OK' && results[0]) {
-        const address = results[0].formatted_address;
-
-        // Emit the location object with lat, lng, and address
-        this.locationSelected.emit({ lat, lng, address });
+        this.address = results[0].formatted_address;
       } else {
-        console.error('Geocoder failed due to:', status);
-        this.locationSelected.emit({ lat, lng, address: 'Address not available' });
+        this.address = 'Unknown location';
+        console.error('Geocoder failed:', status);
       }
     });
+  }
+
+  saveLocation() {
+    const locationData = {
+      lat: this.markerPosition.lat,
+      lng: this.markerPosition.lng,
+      address: this.address,
+    };
+    this.locationSelected.emit(locationData);
   }
 
   cancelLocation() {

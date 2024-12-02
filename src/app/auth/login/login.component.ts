@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent {
       if (res) {
         this.toastr.success('An OTP has been sent to your registered email!', 'Success');
         this.accessToken = res.headers.get('Verification');
+        this.decodeData=jwtDecode(this.accessToken as string)
         this.dialog.open(this.otpDialog, {
           width: '300px',
           disableClose: true,
@@ -58,7 +60,8 @@ export class LoginComponent {
       this.accessToken = res.headers.get('Authorization');
       localStorage.setItem('token', this.accessToken);
       this.toastr.success('Logged in successfully!', 'Success');
-      this.router.navigateByUrl('home');
+      // this.router.navigateByUrl('home');
+      this.checkUserIsOnborded();
       this.dialog.closeAll();
       this.spinner.hide()
     },(err)=>{
@@ -101,6 +104,28 @@ export class LoginComponent {
 
   clearTimer(): void {
     clearInterval(this.intervalId);
+  }
+
+  checkUserIsOnborded(){
+    this.apiService.checkUserIsOnbordedUser(this.decodeData.iAdminId,this.accessToken).subscribe(res=>{
+
+      console.log(res.body.data);
+      if(res.body.data==true){
+        Swal.fire({
+          title: 'You are Logged In Successfully',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+          });
+        this.router.navigateByUrl('home');
+      }else{
+        this.router.navigateByUrl('onboarding');
+      }
+
+    })
   }
 
   togglePasswordVisibility() {

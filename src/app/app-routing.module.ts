@@ -11,6 +11,9 @@ import { CreateEventComponent } from './component/create-event/create-event.comp
 import { AddTeamsComponent } from './component/add-teams/add-teams.component';
 import { TeamsDetailsComponent } from './component/teams-details/teams-details.component';
 import { QuestionEngineComponent } from './component/question-engine/question-engine.component';
+import { VerifyUserComponent } from './verification/verify-user/verify-user.component';
+import { QuestionEngineSelectedComponent } from './component/question-engine-selected/question-engine-selected.component';
+import { OnboardingScreenComponent } from './onboarding/onboarding-screen/onboarding-screen.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -23,7 +26,10 @@ const routes: Routes = [
   { path: 'team', component: TeamComponent ,canActivate: [LoginGuard]},
   { path: 'team/details/:_id', component: TeamsDetailsComponent ,canActivate: [LoginGuard]},
   { path: 'team/add-teams', component: AddTeamsComponent ,canActivate: [LoginGuard]},
-  { path: 'question-engine', component: QuestionEngineComponent ,canActivate: [LoginGuard]}
+  { path: 'question-engine', component: QuestionEngineComponent ,canActivate: [LoginGuard]},
+  { path: 'onboarding', component: OnboardingScreenComponent},
+  { path: 'question-engine/:id', component: QuestionEngineSelectedComponent ,canActivate: [LoginGuard]},
+  { path: 'verify/:id', component: VerifyUserComponent}
 
 ];
 

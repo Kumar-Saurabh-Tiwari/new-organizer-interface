@@ -1,0 +1,98 @@
+.question-selected-container {
+    background-color: #f9faff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+  
+    .heading {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+  
+    .loading {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #3498db;
+    }
+  
+    .question-form {
+      .form-group {
+        margin-bottom: 1.5rem;
+  
+        .form-label {
+          display: block;
+          font-size: 1rem;
+          font-weight: bold;
+          color: #2c3e50;
+          margin-bottom: 0.5rem;
+        }
+  
+        .form-input {
+          width: 100%;
+          padding: 0.75rem;
+          font-size: 1rem;
+          border: 1px solid #dcdfe6;
+          border-radius: 4px;
+          outline: none;
+  
+          &:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+          }
+        }
+  
+        .form-select {
+          width: 100%;
+          padding: 0.75rem;
+          font-size: 1rem;
+          border: 1px solid #dcdfe6;
+          border-radius: 4px;
+          background-color: #fff;
+  
+          &:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+          }
+        }
+      }
+  
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+  
+        .btn {
+          font-size: 1rem;
+          font-weight: bold;
+          padding: 0.75rem 1.5rem;
+          border-radius: 4px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+  
+          &.btn-primary {
+            background-color: #3498db;
+            color: #fff;
+  
+            &:hover {
+              background-color: #1d74b8;
+            }
+          }
+  
+          &.btn-danger {
+            background-color: #e74c3c;
+            color: #fff;
+  
+            &:hover {
+              background-color: #c0392b;
+            }
+          }
+        }
+      }
+    }
+  }
+  

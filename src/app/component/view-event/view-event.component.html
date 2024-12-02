@@ -76,7 +76,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>Select event visibility</label>
-                    <select class="form-select" id="event-visibility" [(ngModel)]="eventObject.bIsPublic">
+                    <select class="form-select" id="event-visibility" name="bIsPublic" [(ngModel)]="eventObject.bIsPublic">
                         <option [value]="true">Public</option>
                         <option [value]="false">Private</option>
                     </select>
@@ -97,5 +97,11 @@
 </div>
 
 <div *ngIf="mapEnable">
-    <app-google-maps (locationSelected)="setLocation($event)"  (cancelSelection)="closeMap($event)"></app-google-maps>
-</div>
+    <app-google-maps
+      [initialCoordinates]="eventObject?.locCoordinates?.coordinates ? { lat: eventObject.locCoordinates.coordinates[1], lng: eventObject.locCoordinates.coordinates[0] } : null"
+      [initialAddress]="eventObject?.locationAddress"
+      (locationSelected)="setLocation($event)"
+      (cancelSelection)="closeMap($event)"
+    ></app-google-maps>
+  </div>
+  

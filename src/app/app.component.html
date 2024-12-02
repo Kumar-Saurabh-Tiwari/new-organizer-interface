@@ -4,8 +4,8 @@
 <div class="d-flex">
   <!-- Sidebar -->
   <div *ngIf="!bIsMovileView && isDisableLogin" class="sidebar">
-    <div routerLink="home" style="padding: 20px;">
-      <img src="../assets/head.svg" width="160px" alt="">
+    <div routerLink="home" style="padding: 15px; border-bottom: 1px solid  #D3D3D3; border-right: 1px solid #D3D3D3;">
+      <img src="../assets/mi-recall-icon/big-logo.svg" width="130px" alt="">
     </div>
     <nav style="margin-top: 20px;">
       <a routerLink="home" [class.active]="activeTab === 'Dashboard'" (click)="setActiveTab('Dashboard')"><i
@@ -18,8 +18,8 @@
         (click)="setActiveTab('Question Engine')"><i class="fas fa-wallet"></i> Question Engine</a>
       <a routerLink="profile" [class.active]="activeTab === 'Setting'" (click)="setActiveTab('Setting')"><i
           class="fas fa-cog"></i> Setting</a>
-      <a [class.active]="activeTab === 'Investments'" (click)="setActiveTab('Investments')"><i
-          class="fas fa-sign-out-alt"></i> Log Out</a>
+      <a id="logout" [class.active]="activeTab === 'LogOut'" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+
     </nav>
 
   </div>
@@ -30,8 +30,8 @@
 
     <!-- Sidebar -->
     <div class="sidebar" [ngClass]="{'open': isSidebarOpen}">
-      <div routerLink="home" style="padding: 20px;">
-        <img src="../assets/head.svg" width="160px" alt="">
+      <div routerLink="home" style="padding: 15px;border-bottom: 1px solid  #D3D3D3; border-right: 1px solid #D3D3D3;">
+        <img src="../assets/mi-recall-icon/big-logo.svg" width="130px" alt="">
       </div>
       <nav style="margin-top: 20px;">
         <a routerLink="home" [class.active]="activeTab === 'Dashboard'" (click)="setActiveTab('Dashboard')"><i
@@ -44,7 +44,7 @@
           (click)="setActiveTab('Question Engine')"><i class="fas fa-wallet"></i> Question Engine</a>
         <a routerLink="profile" [class.active]="activeTab === 'Setting'" (click)="setActiveTab('Setting')"><i
             class="fas fa-cog"></i> Setting</a>
-        <a [class.active]="activeTab === 'LogOut'" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        <a id="logout" [class.active]="activeTab === 'LogOut'" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
       </nav>
 
     </div>
