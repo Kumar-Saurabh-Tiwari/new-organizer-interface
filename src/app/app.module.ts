@@ -26,6 +26,8 @@ import { QuestionEngineComponent } from './component/question-engine/question-en
 import { VerifyUserComponent } from './verification/verify-user/verify-user.component';
 import { QuestionEngineSelectedComponent } from './component/question-engine-selected/question-engine-selected.component';
 import { OnboardingScreenComponent } from './onboarding/onboarding-screen/onboarding-screen.component';
+import { QrDisplayComponent } from './component/qr-display/qr-display.component';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -43,13 +45,15 @@ import { OnboardingScreenComponent } from './onboarding/onboarding-screen/onboar
     QuestionEngineComponent,
     VerifyUserComponent,
     QuestionEngineSelectedComponent,
-    OnboardingScreenComponent
+    OnboardingScreenComponent,
+    QrDisplayComponent
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    QRCodeComponent,
     ReactiveFormsModule,
     MatDialogModule,
     ToastrModule.forRoot({

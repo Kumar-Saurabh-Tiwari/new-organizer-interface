@@ -14,6 +14,7 @@ import { QuestionEngineComponent } from './component/question-engine/question-en
 import { VerifyUserComponent } from './verification/verify-user/verify-user.component';
 import { QuestionEngineSelectedComponent } from './component/question-engine-selected/question-engine-selected.component';
 import { OnboardingScreenComponent } from './onboarding/onboarding-screen/onboarding-screen.component';
+import { QrDisplayComponent } from './component/qr-display/qr-display.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'question-engine', component: QuestionEngineComponent ,canActivate: [LoginGuard]},
   { path: 'onboarding', component: OnboardingScreenComponent},
   { path: 'question-engine/:id', component: QuestionEngineSelectedComponent ,canActivate: [LoginGuard]},
-  { path: 'verify/:id', component: VerifyUserComponent}
+  { path: 'verify/:id', component: VerifyUserComponent},
+  {path: 'eventJoinQR', component: QrDisplayComponent },
 
 ];
 

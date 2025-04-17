@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 import { MapService } from '../../services/map.service';
 import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
+import { QrDisplayComponent } from '../qr-display/qr-display.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-view-event',
   templateUrl: './view-event.component.html',
@@ -81,7 +83,7 @@ export class ViewEventComponent {
   }
 
 
-  constructor( private apiService:ApiService, private activateRoute: ActivatedRoute,private router:Router, private datePipe: DatePipe, private mapServices:MapService){
+  constructor( private apiService:ApiService, private activateRoute: ActivatedRoute,private router:Router, private datePipe: DatePipe, private mapServices:MapService,public dialog: MatDialog,){
     this.locationSubscription = this.locationControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -419,9 +421,32 @@ submitData() {
     }
 
     onSubmit(){
-      setTimeout(() => {
-        this.router.navigateByUrl(`/eventJoinQR?eventId=${this.currentId}&eventname=${this.eventObject.sName}`);         
-       }, 1000);
+      this.openQrDialog();
+      // setTimeout(() => {
+      //   this.router.navigateByUrl(`/eventJoinQR?eventId=${this.currentId}&eventname=${this.eventObject.sName}`);         
+      //  }, 1000);
     }
+
+    openQrDialog(): void {
+      const data={
+        eventId:this.currentId,
+        eventname:this.eventObject.sName
+      }
+      const dialogRef = this.dialog.open(QrDisplayComponent, {
+        width: '100vw',
+        height: '100vh',
+        maxWidth: '100vw',
+        panelClass: 'full-screen-dialog',
+        data: {data}, // Sending data to the dialog
+      });
+    
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log(`Scanned QR Code for index:`, result);
+          // this.recordData.profiles[index].sProfileLink = result;
+        }
+      });
+    }
+    
 
 }

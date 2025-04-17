@@ -3,6 +3,7 @@ import { DeviceService } from '../../services/device.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-event-dashboard',
@@ -268,11 +269,11 @@ export class EventDashboardComponent {
     }, 2000);
 
     this.authToken = localStorage.getItem("token");
-    // this.decodeData = jwtDecode(this.authToken as string);
+    this.decodeData = jwtDecode(this.authToken as string);
 
     this.spinner.show();
     this.apiService
-      .getUpcomingEvents('66c733fb6ae24d535469707f', this.authToken)
+      .getUpcomingEvents(this.decodeData.iOrganizationId, this.authToken)
       .subscribe(
         (res) => {
           console.log(res);
@@ -297,7 +298,7 @@ export class EventDashboardComponent {
       );
     this.spinner.show();
     this.apiService
-      .getPastEvents('66c733fb6ae24d535469707f', this.authToken)
+      .getPastEvents(this.decodeData.iOrganizationId, this.authToken)
       .subscribe((res) => {
         console.log(res);
         if (res.body.pastEvents.length > 0) {
