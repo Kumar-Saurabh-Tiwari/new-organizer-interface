@@ -34,6 +34,7 @@ export class LoginComponent {
     }
     this.apiService.login(loginData).subscribe((res) => {
       if (res) {
+        localStorage.setItem('userEmail',this.email)
         this.toastr.success('An OTP has been sent to your registered email!', 'Success');
         this.accessToken = res.headers.get('Verification');
         this.decodeData=jwtDecode(this.accessToken as string)

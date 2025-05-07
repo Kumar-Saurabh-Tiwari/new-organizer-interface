@@ -82,10 +82,11 @@ export class QrDisplayComponent implements OnInit {
 
     if(this.data){
       this.eventId=this.data.data.eventId
-      this.eventName=this.data.data.eventName
+      this.eventName=this.data.data.eventname
     }
     if (this.eventId) {
-      this.myAngularxQrCode = `${environment.qrUrl}/event-action?eventId=${this.eventId}`;
+      console.log(this.eventName)
+      this.myAngularxQrCode = `${environment.qrUrl}/event-detail-public?event=${encodeURIComponent(this.eventName)}&eventId=${this.eventId}&org=${true}`;
       console.log(this.myAngularxQrCode);
       this.sharedUrl = `${this.baseUrl}/#/eventJoinQR?eventId=${this.eventId}&eventname=${this.eventName}`
     }
